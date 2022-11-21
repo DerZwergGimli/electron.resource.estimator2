@@ -10,11 +10,11 @@
         <li class="step step-primary">
           Check you imported config in the export section
         </li>
-        <li class="step step-primary">Modfiy your Hosts in the Host section</li>
-        <li class="step step-primary">Modfiy your VMs in the Host section</li>
-        <li class="step step-primary">Assign your VMs to the Hosts</li>
+        <li class="step step-primary">Modify your hosts in the host section</li>
+        <li class="step step-primary">Modify your VMs in the host section</li>
+        <li class="step step-primary">Assign your VMs to the hosts</li>
         <li class="step step-primary">
-          View your Assignments in the Ovewview section
+          View your assignments in the overview section
         </li>
       </ul>
       <!--      <img-->
