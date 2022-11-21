@@ -5,6 +5,7 @@ import { useAppStorage } from '../store/AppStorage'
 import html2pdf from 'html2pdf.js'
 import { jsPDF } from 'jspdf'
 import autoTable from 'jspdf-autotable'
+import { uuid } from 'vue-uuid'
 
 const store = useAppStorage()
 
@@ -28,18 +29,13 @@ const vm_table_elements = store.vmsList.map((vm, index) => [
 
 function generatePDF() {
   const doc = new jsPDF()
-  doc.html(document.getElementById('toPrint') as HTMLElement, {
-    callback: function (doc) {
-      doc.save()
-    },
-    x: 0,
-    y: 0,
-  })
+  doc.setFontSize(15)
+
   //Main PAGE
   doc.text(
-    'Virtual environment estimator ',
+    'Virtual Environment Estimator ',
     doc.internal.pageSize.getWidth() / 2,
-    10,
+    50,
     {
       align: 'center',
     }
@@ -47,7 +43,7 @@ function generatePDF() {
 
   //region Host PAGE
   doc.addPage()
-  doc.text('Host-Table ', doc.internal.pageSize.getWidth() / 2, 10, {
+  doc.text('List of all Hosts', doc.internal.pageSize.getWidth() / 2, 20, {
     align: 'center',
   })
 
@@ -63,6 +59,7 @@ function generatePDF() {
   })
 
   autoTable(doc, {
+    startY: 30,
     head: [['ID', 'Name', 'CPU', 'RAM', 'Storage', 'Amount']],
     body: body_hosts,
   })
@@ -70,7 +67,7 @@ function generatePDF() {
 
   //region VM PAGE
   doc.addPage()
-  doc.text('VM-Table ', doc.internal.pageSize.getWidth() / 2, 10, {
+  doc.text('List of all VMs ', doc.internal.pageSize.getWidth() / 2, 20, {
     align: 'center',
   })
 
@@ -86,25 +83,42 @@ function generatePDF() {
   })
 
   autoTable(doc, {
+    startY: 30,
     head: [['ID', 'Name', 'CPU', 'RAM', 'Storage', 'Amount']],
     body: body_vms,
   })
 
   //Assignments PAGE
   doc.addPage()
+  doc.text('Assignments-List', doc.internal.pageSize.getWidth() / 2, 20, {
+    align: 'center',
+  })
 
-  store.assignmentsList.forEach((assignment) => {
+  doc.addPage()
+
+  store.assignmentsList.forEach((assignment, index) => {
     let current_host = store.hostsList.find((host) =>
       host.uuids.some((uuid) => uuid === assignment.host_uuid)
     )
+
     doc.text(
       current_host?.name ?? 'error',
       doc.internal.pageSize.getWidth() / 2,
-      10,
+      20,
       {
         align: 'center',
       }
     )
+    doc.setFontSize(9)
+    doc.text(
+      assignment.host_uuid ?? 'error',
+      doc.internal.pageSize.getWidth() / 2,
+      25,
+      {
+        align: 'center',
+      }
+    )
+    doc.setFontSize(15)
 
     const body_assignments = [
       [
@@ -119,6 +133,7 @@ function generatePDF() {
 
     autoTable(doc, {
       theme: 'plain',
+      startY: 30,
       head: [['sockets', 'cores', 'slots', 'size', 'amount', 'size']],
       body: body_assignments,
     })
@@ -147,7 +162,10 @@ function generatePDF() {
       head: [['Name', 'CPU', 'RAM', 'Storage', 'Amount']],
       body: body_vms,
     })
-    doc.addPage()
+
+    if (store.assignmentsList.length - 1 > index) {
+      doc.addPage()
+    }
   })
 
   doc.save()
