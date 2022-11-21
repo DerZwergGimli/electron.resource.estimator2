@@ -44,7 +44,7 @@ const routes: Array<RouteRecordRaw> = [
   {
     path: '/about',
     name: 'about',
-    component: () => import('./views/ExportView.vue'),
+    component: () => import('./views/AboutView.vue'),
   },
 ]
 
