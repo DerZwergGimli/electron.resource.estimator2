@@ -1,0 +1,43 @@
+.navigation {
+  @apply flex flex-row bg-gray-200 dark:bg-gray-800 text-black dark:text-white;
+  @apply p-2 border-b-2;
+}
+
+.shadow-item {
+  @apply shadow-md shadow-blue-800;
+}
+
+.base-content {
+  @apply bg-gray-200 dark:bg-gray-800 text-black dark:text-white;
+}
+
+.base-headline {
+  @apply bg-gray-300 dark:bg-gray-700 text-black dark:text-white;
+  @apply text-3xl p-2 text-center rounded-b-3xl;
+  @apply shadow-md shadow-blue-800;
+}
+
+tr {
+  @apply bg-white border-b dark:bg-gray-800 dark:border-gray-700;
+}
+
+th {
+  @apply py-4 px-6;
+}
+
+td {
+  @apply py-4 px-6;
+}
+
+.input-g {
+  @apply flex flex-row items-center bg-gray-100  rounded-lg;
+  @apply dark:bg-gray-700;
+}
+.input-text-field {
+  @apply input-xs w-full;
+  @apply text-gray-900 focus:ring-blue-500 focus:border-blue-500  dark:bg-gray-700  dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500;
+}
+
+.input-select-box {
+  @apply w-28 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500;
+}

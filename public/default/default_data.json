@@ -1,0 +1,97 @@
+{
+  "hosts": [
+    {
+      "id": 0,
+      "uuids": ["host000_1", "host000_2"],
+      "name": "Host1",
+      "manufacturer": "Dell",
+      "amount": 2,
+      "cpu": {
+        "sockets": 2,
+        "cores": 64
+      },
+      "ram": {
+        "slots": 8,
+        "size": 16
+      },
+      "storage": {
+        "amount": 10,
+        "size": 1000,
+        "raid": "RAID5"
+      }
+    },
+    {
+      "id": 0,
+      "uuids": ["host001_1"],
+      "name": "Host2",
+      "manufacturer": "Dell",
+      "amount": 1,
+      "cpu": {
+        "sockets": 2,
+        "cores": 64
+      },
+      "ram": {
+        "slots": 8,
+        "size": 16
+      },
+      "storage": {
+        "amount": 10,
+        "size": 1000,
+        "raid": "RAID1"
+      }
+    }
+  ],
+  "vms": [
+    {
+      "id": 0,
+      "uuids": ["vm000_1", "vm000_2", "vm000_3", "vm000_4"],
+      "name": "ES_Windows",
+      "os": "Windows",
+      "amount": 4,
+      "vcpu": {
+        "min": 2,
+        "rec": 4,
+        "max": 6
+      },
+      "vram": {
+        "min": 2,
+        "rec": 4,
+        "max": 6
+      },
+      "vstorage": {
+        "min": 2,
+        "rec": 4,
+        "max": 6
+      }
+    },
+
+    {
+      "id": 2,
+      "uuids": ["vm001_1", "vm001_2"],
+      "name": "OSS_Windows",
+      "os": "Windows",
+      "amount": 2,
+      "vcpu": {
+        "min": 2,
+        "rec": 4,
+        "max": 6
+      },
+      "vram": {
+        "min": 2,
+        "rec": 4,
+        "max": 6
+      },
+      "vstorage": {
+        "min": 2,
+        "rec": 4,
+        "max": 6
+      }
+    }
+  ],
+  "assignments": [
+    {
+      "host_uuid": "host000_1",
+      "vm_uuid": ["vm000_1", "vm001_2"]
+    }
+  ]
+}

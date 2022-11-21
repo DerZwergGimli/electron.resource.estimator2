@@ -1,0 +1,92 @@
+{
+  "presets_vms": [
+    {
+      "id": -1,
+      "name": "none",
+      "os": "Windows",
+      "cpu": 1,
+      "ram": 1,
+      "storage": 1
+    },
+    {
+      "id": 0,
+      "name": "default",
+      "os": "Windows",
+      "cpu": 2,
+      "ram": 6,
+      "storage": 100
+    },
+    {
+      "id": 1,
+      "name": "vCenter_7",
+      "os": "Linux",
+      "cpu": 2,
+      "ram": 12,
+      "storage": 600
+    },
+    {
+      "id": 2,
+      "name": "ESXI_V7",
+      "os": "Linux",
+      "cpu": 2,
+      "ram": 4,
+      "storage": 50
+    },
+    {
+      "id": 3,
+      "name": "Windows_Server2019_Standalone",
+      "os": "Windows",
+      "cpu": 1,
+      "ram": 2,
+      "storage": 40
+    },
+    {
+      "id": 4,
+      "name": "WSUS_2019",
+      "os": "Windows",
+      "cpu": 2,
+      "ram": 4,
+      "storage": 50
+    },
+    {
+      "id": 5,
+      "name": "AD_2019",
+      "os": "Windows",
+      "cpu": 2,
+      "ram": 4,
+      "storage": 50
+    },
+    {
+      "id": 6,
+      "name": "DNS_2019",
+      "os": "Windows",
+      "cpu": 2,
+      "ram": 4,
+      "storage": 50
+    },
+    {
+      "id": 7,
+      "name": "ES",
+      "os": "Windows",
+      "cpu": 4,
+      "ram": 16,
+      "storage": 130
+    },
+    {
+      "id": 8,
+      "name": "OSS",
+      "os": "Windows",
+      "cpu": 2,
+      "ram": 16,
+      "storage": 130
+    },
+    {
+      "id": 9,
+      "name": "OSC",
+      "os": "Windows",
+      "cpu": 2,
+      "ram": 16,
+      "storage": 130
+    }
+  ]
+}
