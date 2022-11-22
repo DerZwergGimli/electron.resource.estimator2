@@ -126,13 +126,15 @@ function generatePDF() {
       }
     )
     doc.setFontSize(9)
+    doc.text('UUID:', 15, 30)
+    doc.text(assignment.host_uuid ?? 'error', 40, 30)
+    doc.text('Manufacturer:', 15, 35)
     doc.text(
-      assignment.host_uuid ?? 'error',
-      doc.internal.pageSize.getWidth() / 2,
-      25,
-      {
-        align: 'center',
-      }
+      store.hostsList.find((host) =>
+        host.uuids.some((uuid) => uuid == assignment.host_uuid)
+      )?.manufacturer ?? 'error',
+      40,
+      35
     )
     doc.setFontSize(15)
 
@@ -149,7 +151,7 @@ function generatePDF() {
 
     autoTable(doc, {
       theme: 'grid',
-      startY: 30,
+      startY: 40,
       head: [
         [
           {
