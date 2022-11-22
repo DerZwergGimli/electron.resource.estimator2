@@ -7,9 +7,11 @@
       Reset assignments
     </button>
 
+    <button class="btn-style m-3" @click="btn_autoAssign()">AUTO assign</button>
+
     <div class="flex flex-col w-auto m-4 lg:flex-row">
       <div
-        class="flex flex-grow space-y-2 p-2 card bg-base-300 rounded-box place-items-center"
+        class="flex flex-grow space-y-2 p-2 card rounded-box place-items-center"
       >
         <div
           class="flex flex-col space-y-1 w-full px-10"
@@ -46,7 +48,7 @@
       </div>
       <div class="divider lg:divider-horizontal">OR</div>
       <div
-        class="flex flex-auto space-y-2 card p-2 bg-base-300 rounded-box place-items-center"
+        class="flex flex-auto space-y-2 card p-2 rounded-box place-items-center"
       >
         <div
           class="space-y-2 w-full px-2"
@@ -113,7 +115,8 @@
 <script setup>
 import AssignmentVMElement from '../components/assignmentElements/AssignmentVMElement.vue'
 import AssignmentHostElement from '../components/assignmentElements/AssignmentHostElement.vue'
-
+import { createToast } from 'mosha-vue-toastify'
+import { TOAST_SUCCESS, TOAST_WARNING } from '../extra/toast-config'
 import { defineComponent, onMounted } from 'vue'
 import { useAppStorage } from '~/store/AppStorage'
 
@@ -148,6 +151,11 @@ function btn_removeAssignment(host_uuid, vm_uuid) {
 
 function btn_clearAllAssignments() {
   storage.assignmentsList = []
+  createToast('Assignments cleared!', TOAST_SUCCESS)
+}
+
+function btn_autoAssign() {
+  createToast('NOT IMPLEMENTED!', TOAST_WARNING)
 }
 </script>
 

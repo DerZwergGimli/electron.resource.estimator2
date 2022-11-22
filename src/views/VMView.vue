@@ -8,7 +8,7 @@
       @clk_remove_item="(vm_uuids) => clk_removeVM(vm_uuids)"
     ></VMTable>
     <div>
-      <button class="btn-style" @click="clk_addVM()">Add VM</button>
+      <button class="btn-style mb-3" @click="clk_addVM()">Add VM</button>
     </div>
   </div>
 </template>

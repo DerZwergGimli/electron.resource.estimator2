@@ -1,6 +1,6 @@
 <template>
   <div
-    class="flex flex-row w-full space-x-4 bg-base-100 rounded-2xl px-3 items-center"
+    class="flex flex-row w-full space-x-4 bg-base-100 dark:bg-slate-600 rounded-2xl px-3 items-center"
     v-if="vm"
   >
     <p class="basis-2/5 text-lg w-full">{{ vm.name }}</p>

@@ -8,7 +8,7 @@
       @clk_remove_item="(host_uuids) => clk_removeHost(host_uuids)"
     ></HostTable>
     <div>
-      <button class="btn-style" @click="clk_addHost()">Add Host</button>
+      <button class="btn-style mb-3" @click="clk_addHost()">Add Host</button>
     </div>
   </div>
 </template>

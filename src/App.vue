@@ -15,8 +15,8 @@ onMounted(async () => {
 </script>
 
 <template>
-  <div class="flex flex-col h-screen base-content">
+  <div class="flex flex-col base-content min-h-screen">
     <navigation-component />
-    <router-view />
+    <router-view class="flex flex-grow" />
   </div>
 </template>

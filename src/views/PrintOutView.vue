@@ -43,6 +43,20 @@ function generatePDF() {
     }
   )
 
+  doc.text('Report', doc.internal.pageSize.getWidth() / 2, 60, {
+    align: 'center',
+  })
+  doc.setFontSize(10)
+  doc.text(
+    new Date().toLocaleDateString(),
+    doc.internal.pageSize.getWidth() / 2,
+    250,
+    {
+      align: 'center',
+    }
+  )
+  doc.setFontSize(15)
+
   //region Host PAGE
   doc.addPage()
   doc.text('List of all Hosts', doc.internal.pageSize.getWidth() / 2, 20, {
