@@ -2,7 +2,7 @@
   <div class="overflow-x-auto relative">
     <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
       <thead
-        class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400"
+        class="text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400"
       >
         <tr>
           <th>ID</th>
@@ -20,14 +20,12 @@
               <icon-ram />
             </div>
           </th>
-
           <th>
             <div class="flex flex-row space-x-1 items-center">
               <p>Storage</p>
               <icon-hdd />
             </div>
           </th>
-
           <th>RAID</th>
           <th>Amount</th>
           <th></th>
@@ -36,7 +34,7 @@
       <tbody>
         <!-- body -->
         <tr v-for="(host, index) in hosts" :key="index">
-          <th scope="row">{{ index }}</th>
+          <th>{{ index }}</th>
           <td>
             <input
               class="input-text-field"
@@ -47,20 +45,20 @@
           </td>
           <td>
             <input
-              class="input-text-field w-full max-w-xs"
+              class="input-text-field"
               type="text"
               :value="host.manufacturer"
               @input="(event:any) => (host.manufacturer = event.target.value)"
             />
           </td>
           <td>
-            <HostResources
+            <host-resources
               :first_value="host.cpu.sockets"
               :second_value="host.cpu.cores"
               type="cpu"
               @changed_first="(value) => (host.cpu.sockets = parseInt(value))"
               @changed_second="(value) => (host.cpu.cores = parseInt(value))"
-            ></HostResources>
+            ></host-resources>
             <div class="flex flex-row space-x-2 items-center">
               <icon-calculator />
               <p class="text-sm pt-1">
@@ -69,13 +67,13 @@
             </div>
           </td>
           <td>
-            <HostResources
+            <host-resources
               :first_value="host.ram.slots"
               :second_value="host.ram.size"
               type="ram"
               @changed_first="(value) => (host.ram.slots = parseInt(value))"
               @changed_second="(value) => (host.ram.size = parseInt(value))"
-            ></HostResources>
+            ></host-resources>
             <div class="flex flex-row space-x-2 items-center">
               <icon-calculator />
               <p class="text-sm pt-1">
@@ -84,7 +82,7 @@
             </div>
           </td>
           <td>
-            <HostResources
+            <host-resources
               :first_value="host.storage.amount"
               :second_value="host.storage.size"
               type="storage"
@@ -92,7 +90,7 @@
                 (value) => (host.storage.amount = parseInt(value))
               "
               @changed_second="(value) => (host.storage.size = parseInt(value))"
-            ></HostResources>
+            ></host-resources>
             <div class="flex flex-row space-x-2 items-center">
               <icon-calculator />
               <p class="text-sm pt-1">
@@ -136,7 +134,6 @@
               </div>
             </div>
           </td>
-
           <td>
             <input
               class="input-text-field"
@@ -154,7 +151,7 @@
           </td>
           <td>
             <button
-              class="btn btn-sm"
+              class="btn-style"
               @click="$emit('clk_remove_item', host.uuids)"
             >
               <icon-trash />
@@ -176,6 +173,7 @@ import {
 } from '../../extra/calculator_storage'
 import { RAIDEnums } from '../../store/types/enums'
 import HostResources from '../../components/table/table_elements/HostResources.vue'
+
 import { useAppStorage } from '../../store/AppStorage'
 import IconCpu from '../icons/IconCpu.vue'
 import IconRam from '../icons/IconRam.vue'

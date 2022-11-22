@@ -2,16 +2,31 @@
   <div class="overflow-x-auto relative">
     <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
       <thead
-        class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400"
+        class="text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400"
       >
         <tr>
           <th>ID</th>
           <th>Name</th>
           <th>OS</th>
           <th>Preset</th>
-          <th>CPU <i class="bi bi-cpu"></i></th>
-          <th>RAM <i class="bi bi-memory"></i></th>
-          <th>Storage <i class="bi bi-device-hdd"></i></th>
+          <th>
+            <div class="flex flex-row space-x-1 items-center">
+              <p>CPU</p>
+              <icon-cpu />
+            </div>
+          </th>
+          <th>
+            <div class="flex flex-row space-x-1 items-center">
+              <p>RAM</p>
+              <icon-ram />
+            </div>
+          </th>
+          <th>
+            <div class="flex flex-row space-x-1 items-center">
+              <p>Storage</p>
+              <icon-hdd />
+            </div>
+          </th>
           <th>Amount</th>
           <th></th>
         </tr>
@@ -84,7 +99,7 @@
           </th>
           <th>
             <button
-              class="btn btn-sm"
+              class="btn-style"
               @click="$emit('clk_remove_item', vm.uuids)"
             >
               <icon-trash />
@@ -103,7 +118,11 @@ import { defineProps, PropType } from 'vue'
 import VMResouce from './table_elements/VMResource.vue'
 import { VM } from '../../store/types/VM'
 import { useAppStorage } from '../../store/AppStorage'
+import IconCpu from '../icons/IconCpu.vue'
+import IconRam from '../icons/IconRam.vue'
+import IconHdd from '../icons/IconHdd.vue'
 import IconTrash from '../icons/IconTrash.vue'
+import IconCalculator from '../icons/IconCalculator.vue'
 
 const store = useAppStorage()
 store.init()
@@ -133,8 +152,4 @@ function evt_change_preset(event: any, vm_uuids: string[]) {
 }
 </script>
 
-<script lang="ts">
-export default {
-  name: 'VMTable',
-}
-</script>
+<script setup lang="ts"></script>

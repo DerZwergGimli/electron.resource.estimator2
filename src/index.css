@@ -30,14 +30,23 @@ td {
 }
 
 .input-g {
-  @apply flex flex-row items-center bg-gray-100  rounded-lg;
+  @apply flex flex-row  items-center bg-gray-100  rounded-lg;
   @apply dark:bg-gray-700;
 }
+
 .input-text-field {
   @apply input-xs w-full;
   @apply text-gray-900 focus:ring-blue-500 focus:border-blue-500  dark:bg-gray-700  dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500;
 }
 
+.input-icon{
+
+}
+
 .input-select-box {
-  @apply w-28 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500;
+  @apply input-xs w-32 h-10 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500;
+}
+
+.btn-style {
+  @apply btn  hover:bg-primary
 }

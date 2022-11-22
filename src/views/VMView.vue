@@ -3,12 +3,12 @@
     <div class="base-headline">VM setup</div>
     <div class="divider"></div>
     <VMTable
-      class="m-4"
+      class="m-3"
       :vms="store.vmsList"
       @clk_remove_item="(vm_uuids) => clk_removeVM(vm_uuids)"
     ></VMTable>
     <div>
-      <button class="btn" @click="clk_addVM()">Add VM</button>
+      <button class="btn-style" @click="clk_addVM()">Add VM</button>
     </div>
   </div>
 </template>

@@ -1,5 +1,5 @@
 <template>
-  <div class="space-y-1 form-control flex flex-row">
+  <div class="space-y-1">
     <label class="input-g flex justify-center">
       <span class="w-14 flex justify-center">
         <icon-cpu v-if="type === 'cpu'" />
@@ -10,7 +10,6 @@
       <input
         class="input-text-field"
         type="number"
-        placeholder="Type here"
         :class="value == 0 ? ' input-error' : ''"
         :value="value"
         @input="(event: any) => $emit('changed', event.target.value)"
