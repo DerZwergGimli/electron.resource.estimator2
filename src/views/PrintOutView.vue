@@ -1,9 +1,16 @@
 <script setup lang="ts">
+import { ref } from 'vue'
 import { useAppStorage } from '../store/AppStorage'
 import { jsPDF } from 'jspdf'
 import autoTable from 'jspdf-autotable'
 
 const store = useAppStorage()
+const doc = new jsPDF()
+
+generatePDF()
+
+const pdfFile = ref()
+pdfFile.value = doc.output('datauristring')
 
 const host_table_elements = store.hostsList.map((host, index) => [
   index,
@@ -24,7 +31,6 @@ const vm_table_elements = store.vmsList.map((vm, index) => [
 ])
 
 function generatePDF() {
-  const doc = new jsPDF()
   doc.setFontSize(15)
 
   //Main PAGE
@@ -163,19 +169,25 @@ function generatePDF() {
       doc.addPage()
     }
   })
+}
 
+function downloadPDF() {
   doc.save()
 }
 </script>
 
 <template>
-  <div class="flex flex-col base-content">
+  <div class="flex flex-col base-content h-screen">
     <div class="base-headline">Export as PDF</div>
     <div class="divider"></div>
 
-    <button class="btn m-4 hover:bg-primary" @click="generatePDF()">
-      generate pdf
-    </button>
+    <button class="btn-style m-3" @click="downloadPDF()">generate pdf</button>
+    <iframe
+      class="p-3 flex flex-grow"
+      width="100%"
+      height="100%"
+      :src="pdfFile"
+    ></iframe>
   </div>
 </template>
 
@@ -190,7 +202,6 @@ h1 {
 }
 
 th {
-  
 }
 
 h2 {

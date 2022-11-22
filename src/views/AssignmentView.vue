@@ -3,7 +3,10 @@
     <div class="base-headline">Make assignments</div>
     <div class="divider"></div>
 
-    <button class="btn m-4" @click="btn_clearAllAssignments()">Reset</button>
+    <button class="btn-style m-3" @click="btn_clearAllAssignments()">
+      Reset
+    </button>
+
     <div class="flex flex-col w-auto m-4 lg:flex-row">
       <div
         class="flex flex-grow space-y-2 p-2 card bg-base-300 rounded-box place-items-center"
