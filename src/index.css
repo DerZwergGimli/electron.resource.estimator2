@@ -1,6 +1,6 @@
 .navigation {
   @apply flex flex-row bg-gray-200 dark:bg-gray-800 text-black dark:text-white;
-  @apply p-2 border-b-2;
+  @apply p-3 ;
 }
 
 .shadow-item {
@@ -12,9 +12,9 @@
 }
 
 .base-headline {
-  @apply bg-gray-300 dark:bg-gray-700 text-black dark:text-white;
-  @apply text-3xl p-2 text-center rounded-b-3xl;
-  @apply shadow-md shadow-blue-800;
+  @apply   text-black dark:text-white;
+  @apply text-3xl p-3 text-center rounded-b-3xl;
+  @apply  shadow-md shadow-purple-600;
 }
 
 tr {
