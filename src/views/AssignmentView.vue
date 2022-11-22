@@ -4,7 +4,7 @@
     <div class="divider"></div>
 
     <button class="btn-style m-3" @click="btn_clearAllAssignments()">
-      Reset
+      Reset assignments
     </button>
 
     <div class="flex flex-col w-auto m-4 lg:flex-row">
