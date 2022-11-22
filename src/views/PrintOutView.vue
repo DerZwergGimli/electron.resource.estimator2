@@ -148,9 +148,28 @@ function generatePDF() {
     ]
 
     autoTable(doc, {
-      theme: 'plain',
+      theme: 'grid',
       startY: 30,
-      head: [['sockets', 'cores', 'slots', 'size', 'amount', 'size']],
+      head: [
+        [
+          {
+            content: 'CPU',
+            colSpan: 2,
+            styles: { halign: 'center' },
+          },
+          {
+            content: 'RAM',
+            colSpan: 2,
+            styles: { halign: 'center' },
+          },
+          {
+            content: 'Storage',
+            colSpan: 2,
+            styles: { halign: 'center' },
+          },
+        ],
+        ['sockets', 'cores', 'slots', 'size', 'amount', 'size'],
+      ],
       body: body_assignments,
     })
 
