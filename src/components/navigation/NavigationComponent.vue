@@ -1,9 +1,14 @@
 <template>
   <div class="navigation">
     <div class="flex-1">
-      <a class="btn btn-ghost normal-case text-xl"
-        >Resource Capacity Estimator</a
-      >
+      <a class="btn btn-ghost normal-case text-xl space-x-2">
+        <img
+          class="object-contain h-5"
+          src="public/logo.png"
+          alt="server-room-img"
+        />
+        <p>Resource Capacity Estimator</p>
+      </a>
     </div>
     <div class="flex-none">
       <ul class="menu menu-horizontal p-0">
