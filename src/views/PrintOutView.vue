@@ -212,7 +212,7 @@ function downloadPDF() {
 </script>
 
 <template>
-  <div class="flex flex-col base-content h-screen">
+  <div class="flex flex-col base-content">
     <div class="base-headline">Export as PDF</div>
     <div class="divider"></div>
 
