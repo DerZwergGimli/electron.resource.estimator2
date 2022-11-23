@@ -3,7 +3,7 @@
     <div class="flex-1">
       <a class="btn btn-ghost normal-case text-xl space-x-2">
         <img
-          class="object-contain w-96"
+          class="object-contain h-5"
           src="/public/logo.png"
           alt="app-logo"
         />
