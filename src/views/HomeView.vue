@@ -21,8 +21,8 @@
       </ul>
       <img
         class="object-contain w-96"
-        src="public/logo.png"
-        alt="server-room-img"
+        src="/public/logo.png"
+        alt="app-logo"
       />
     </div>
   </div>
