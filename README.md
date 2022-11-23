@@ -6,4 +6,7 @@ A simple resource estimator tool written for virtual environment estimation.
 
 1. Install Dependencies: `npm install`
 2. Run Dev-Server: `npm run dev`
-3. Build Package: `npm run build`
+
+## Release
+1. Install Dependencies: `npm install`
+2. Build Package: `npm run build`
