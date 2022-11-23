@@ -10,3 +10,4 @@ A simple resource estimator tool written for virtual environment estimation.
 ## Release
 1. Install Dependencies: `npm install`
 2. Build Package: `npm run build`
+
