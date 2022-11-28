@@ -11,3 +11,7 @@ A simple resource estimator tool written for virtual environment estimation.
 
 1. Install Dependencies: `npm install`
 2. Build Package: `npm run build`
+
+## Create a release on GH
+
+more info can be found ![https://github.com/marketplace/actions/electron-builder-action](here)
