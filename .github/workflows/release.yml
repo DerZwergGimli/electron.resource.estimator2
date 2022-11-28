@@ -23,21 +23,13 @@ jobs:
         os: [macos-latest, ubuntu-latest, windows-latest]
 
     steps:
-      - name: Checkout Code
-        uses: actions/checkout@v2
+      - name: Check out Git repository
+        uses: actions/checkout@v1
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v2
+      - name: Install Node.js, NPM and Yarn
+        uses: actions/setup-node@v1
         with:
-          node-version: 14
-
-      - name: Install Dependencies
-        run: npm install
-
-      - name: Build Release Files
-        run: npm run build
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          node-version: 10
 
       - name: Build/release Electron app
         uses: samuelmeuli/action-electron-builder@v1
