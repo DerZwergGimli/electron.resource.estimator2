@@ -1,6 +1,6 @@
 {
   "name": "electron-resource-estimator",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "main": "dist-electron/main/index.js",
   "description": "A simple hardware resource estimator tool for virtual environments ",
   "author": "dzwg",
