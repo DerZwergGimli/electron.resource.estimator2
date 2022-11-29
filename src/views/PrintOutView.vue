@@ -55,6 +55,15 @@ function generatePDF() {
       align: 'center',
     }
   )
+  doc.text(
+    'Tool-Version ' + process.env.npm_package_version ?? 'error',
+    doc.internal.pageSize.getWidth() / 2,
+    255,
+    {
+      align: 'center',
+    }
+  )
+
   doc.setFontSize(15)
 
   //region Host PAGE
@@ -127,6 +136,8 @@ function generatePDF() {
     )
     doc.setFontSize(9)
     doc.text('UUID:', 15, 30)
+    doc.text('Index:', 150, 30, { align: 'right' })
+    doc.text(index.toString() ?? 'error', 160, 30, { align: 'left' })
     doc.text(assignment.host_uuid ?? 'error', 40, 30)
     doc.text('Manufacturer:', 15, 35)
     doc.text(
@@ -146,6 +157,7 @@ function generatePDF() {
         current_host?.ram.size.toString() ?? 'error',
         current_host?.storage.amount.toString() ?? 'error',
         current_host?.storage.size.toString() ?? 'error',
+        current_host?.storage.raid.toString() ?? 'error',
       ],
     ]
 
@@ -166,11 +178,11 @@ function generatePDF() {
           },
           {
             content: 'Storage',
-            colSpan: 2,
+            colSpan: 3,
             styles: { halign: 'center' },
           },
         ],
-        ['sockets', 'cores', 'slots', 'size', 'amount', 'size'],
+        ['sockets', 'cores', 'slots', 'size', 'amount', 'size', 'RAID'],
       ],
       body: body_assignments,
     })
@@ -187,7 +199,6 @@ function generatePDF() {
               vm.vcpu.rec.toString() + ' Cores',
               vm.vram.rec.toString() + ' GB',
               vm.vstorage.rec.toString() + ' GB',
-              vm.uuids.length.toString(),
             ]
             body_vms.push(row)
           }
@@ -196,7 +207,7 @@ function generatePDF() {
     }
 
     autoTable(doc, {
-      head: [['Name', 'CPU', 'RAM', 'Storage', 'Amount']],
+      head: [['Name', 'CPU', 'RAM', 'Storage']],
       body: body_vms,
     })
 

@@ -40,7 +40,7 @@
               class="input-text-field"
               type="text"
               :value="host.name"
-              @input="(event:any) => (host.name = event.target.value)"
+              @input="(event: any) => (host.name = event.target.value)"
             />
           </td>
           <td>
@@ -48,7 +48,7 @@
               class="input-text-field"
               type="text"
               :value="host.manufacturer"
-              @input="(event:any) => (host.manufacturer = event.target.value)"
+              @input="(event: any) => (host.manufacturer = event.target.value)"
             />
           </td>
           <td>
