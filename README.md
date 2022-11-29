@@ -17,4 +17,4 @@ A simple resource estimator tool written for virtual environment estimation.
 
 ## Create a release on GH
 
-more info can be found ![here](https://github.com/marketplace/actions/electron-builder-action)
+more info can be found [here](https://github.com/marketplace/actions/electron-builder-action).
