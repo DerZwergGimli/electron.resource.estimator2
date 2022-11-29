@@ -7,18 +7,21 @@
 
     <div class="flex flex-row justify-evenly m-2 p-2 rounded-lg">
       <HostUsageElement
+        text_top="CPU"
         :host_uuid="host_uuid"
         :virtual_hw_conf="VirtualHardwareEnums.vcpu"
         :hw_conf="HardwareEnums.cpu"
         :host="host"
       ></HostUsageElement>
       <HostUsageElement
+        text_top="RAM"
         :host_uuid="host_uuid"
         :virtual_hw_conf="VirtualHardwareEnums.vram"
         :hw_conf="HardwareEnums.ram"
         :host="host"
       ></HostUsageElement>
       <HostUsageElement
+        text_top="Storage"
         :host_uuid="host_uuid"
         :virtual_hw_conf="VirtualHardwareEnums.vstorage"
         :hw_conf="HardwareEnums.storage"
