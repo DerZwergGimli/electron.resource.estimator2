@@ -78,7 +78,7 @@
               class="space-y-1"
               v-if="
                 storage.assignmentsList.find(
-                  (assigment) => assigment.host_uuid === host_element_uuid
+                  (assignment) => assignment.host_uuid === host_element_uuid
                 )
               "
             >

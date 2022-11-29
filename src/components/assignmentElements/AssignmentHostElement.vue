@@ -1,8 +1,9 @@
 <template>
   <div class="flex flex-col" v-if="host">
-    <div class="flex flex-row self-center pb-2">
+    <div class="flex flex-row self-center pb-2 items-center">
       <p class="text-2xl font-bold">{{ host.name }}</p>
-      <span class="badge badge-sm">{{ host_index }}</span>
+
+      <span class="badge"> <icon-id></icon-id> {{ host_index }}</span>
     </div>
 
     <div class="flex flex-row justify-evenly m-2 p-2 rounded-lg">
@@ -43,7 +44,7 @@ import {
 } from '../../store/types/enums'
 import { get_used_cpu } from '../../extra/calculator'
 import HostUsageElement from '../../components/assignmentElements/HostUsageElement.vue'
-
+import IconId from '../icons/IconId.vue'
 defineProps({
   host_uuid: {
     type: String,
