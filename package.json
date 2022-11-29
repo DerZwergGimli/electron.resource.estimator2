@@ -1,6 +1,6 @@
 {
   "name": "electron-resource-estimator",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "main": "dist-electron/main/index.js",
   "description": "A simple hardware resource estimator tool for virtual environments ",
   "author": "dzwg",
@@ -8,6 +8,7 @@
   "private": true,
   "scripts": {
     "dev": "vite",
+    "preBuild": "vue-tsc --noEmit && vite build",
     "build": "vue-tsc --noEmit && vite build && electron-builder"
   },
   "engines": {
