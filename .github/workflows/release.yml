@@ -34,9 +34,6 @@ jobs:
       - name: Install Dependencies
         run: npm install
 
-      - name: PreBuild
-        run: npm run preBuild
-
       - name: Build/release Electron app
         uses: samuelmeuli/action-electron-builder@v1
         with:
