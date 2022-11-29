@@ -1,5 +1,7 @@
 <template>
-  <div class="flex flex-col bg-slate-500 px-2 rounded-lg w-40 items-center">
+  <div
+    class="flex flex-col dark:bg-slate-500 bg-slate-300 bg px-2 rounded-lg w-40 items-center"
+  >
     <div>{{ text_top }}</div>
     <div
       v-if="hw_conf === HardwareEnums.cpu"
