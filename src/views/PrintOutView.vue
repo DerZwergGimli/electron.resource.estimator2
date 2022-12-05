@@ -4,6 +4,9 @@ import { useAppStorage } from '../store/AppStorage'
 import { jsPDF } from 'jspdf'
 import autoTable from 'jspdf-autotable'
 
+import { caluclate_raid } from '../extra/calculator_storage'
+import { RAIDEnums } from '../store/types/enums'
+
 const store = useAppStorage()
 const doc = new jsPDF()
 
@@ -83,10 +86,27 @@ function generatePDF() {
     ]
   })
 
+  body_hosts.push([
+    'Sum',
+    '',
+    store.hostsList.reduce((a, b) => a + b.cpu.cores * b.cpu.sockets, 0) +
+      ' Cores',
+    store.hostsList.reduce((a, b) => a + b.ram.size * b.ram.slots, 0) + ' GB',
+    store.hostsList.reduce((a, b) => a + b.storage.size * b.storage.amount, 0) +
+      ' GB',
+    store.hostsList.reduce((a, b) => a + b.uuids.length, 0),
+  ])
+
   autoTable(doc, {
     startY: 30,
     head: [['ID', 'Name', 'CPU', 'RAM', 'Storage', 'Amount']],
     body: body_hosts,
+    didParseCell: function (data) {
+      var rows = data.table.body
+      if (data.row.index === rows.length - 1) {
+        data.cell.styles.fillColor = '#8FE6FC'
+      }
+    },
   })
   //endregion
 
@@ -96,7 +116,7 @@ function generatePDF() {
     align: 'center',
   })
 
-  const body_vms = store.vmsList.map((vm, index) => {
+  let body_vms = store.vmsList.map((vm, index) => {
     return [
       index,
       vm.name,
@@ -107,10 +127,25 @@ function generatePDF() {
     ]
   })
 
+  body_vms.push([
+    'Sum',
+    '',
+    store.vmsList.reduce((a, b) => a + b.vcpu.rec, 0) + ' Cores',
+    store.vmsList.reduce((a, b) => a + b.vram.rec, 0) + ' GB',
+    store.vmsList.reduce((a, b) => a + b.vstorage.rec, 0) + ' GB',
+    store.vmsList.reduce((a, b) => a + b.uuids.length, 0),
+  ])
+
   autoTable(doc, {
     startY: 30,
     head: [['ID', 'Name', 'CPU', 'RAM', 'Storage', 'Amount']],
     body: body_vms,
+    didParseCell: function (data) {
+      var rows = data.table.body
+      if (data.row.index === rows.length - 1) {
+        data.cell.styles.fillColor = '#8FE6FC'
+      }
+    },
   })
 
   //Assignments PAGE
@@ -149,17 +184,65 @@ function generatePDF() {
     )
     doc.setFontSize(15)
 
-    const body_assignments = [
+    let body_assignments = [
       [
-        current_host?.cpu.sockets.toString() ?? 'error',
-        current_host?.cpu.cores.toString() ?? 'error',
-        current_host?.ram.slots.toString() ?? 'error',
-        current_host?.ram.size.toString() ?? 'error',
-        current_host?.storage.amount.toString() ?? 'error',
-        current_host?.storage.size.toString() ?? 'error',
-        current_host?.storage.raid.toString() ?? 'error',
+        {
+          content: current_host?.cpu.sockets.toString() ?? 'error',
+          colSpan: 1,
+        },
+        {
+          content: current_host?.cpu.cores.toString() ?? 'error',
+          colSpan: 1,
+        },
+        {
+          content: current_host?.ram.slots.toString() ?? 'error',
+          colSpan: 1,
+        },
+        {
+          content: current_host?.ram.size.toString() ?? 'error',
+          colSpan: 1,
+        },
+        {
+          content: current_host?.storage.amount.toString() ?? 'error',
+          colSpan: 1,
+        },
+        {
+          content: current_host?.storage.size.toString() ?? 'error',
+          colSpan: 1,
+        },
+        {
+          content: current_host?.storage.raid.toString() ?? 'error',
+          colSpan: 1,
+        },
       ],
     ]
+
+    body_assignments.push([
+      {
+        content:
+          (
+            (current_host?.cpu.sockets ?? 0) * (current_host?.cpu.cores ?? 0)
+          ).toString() + ' Cores',
+        colSpan: 2,
+      },
+      {
+        content:
+          (
+            (current_host?.ram.slots ?? 0) * (current_host?.ram.size ?? 0)
+          ).toString() + ' GB',
+        colSpan: 2,
+      },
+      {
+        content:
+          caluclate_raid(
+            current_host?.storage.amount ?? 0,
+            current_host?.storage.size ?? 0,
+            current_host?.storage.raid ?? RAIDEnums.R0,
+            1
+          ).toString() + ' GB',
+        colSpan: 3,
+      },
+    ])
 
     autoTable(doc, {
       theme: 'grid',
@@ -206,9 +289,25 @@ function generatePDF() {
       })
     }
 
+    body_vms.push([
+      'Total',
+      body_vms.reduce((a, b) => a + parseInt(b[1].replace(' Cores', '')), 0) +
+        ' Cores',
+      body_vms.reduce((a, b) => a + parseInt(b[2].replace(' GB', '')), 0) +
+        ' GB',
+      body_vms.reduce((a, b) => a + parseInt(b[3].replace(' GB', '')), 0) +
+        ' GB',
+    ])
+
     autoTable(doc, {
       head: [['Name', 'CPU', 'RAM', 'Storage']],
       body: body_vms,
+      didParseCell: function (data) {
+        var rows = data.table.body
+        if (data.row.index === rows.length - 1) {
+          data.cell.styles.fillColor = '#8FE6FC'
+        }
+      },
     })
 
     if (store.assignmentsList.length - 1 > index) {
