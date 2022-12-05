@@ -33,7 +33,7 @@ const vm_table_elements = store.vmsList.map((vm, index) => [
 function generatePDF() {
   doc.setFontSize(15)
 
-  //Main PAGE
+  //Info PAGE
   doc.text(
     'Virtual Environment Estimator ',
     doc.internal.pageSize.getWidth() / 2,
@@ -72,7 +72,7 @@ function generatePDF() {
     align: 'center',
   })
 
-  const body_hosts = store.hostsList.map((host, index) => {
+  let body_hosts = store.hostsList.map((host, index) => {
     return [
       index,
       host.name,
