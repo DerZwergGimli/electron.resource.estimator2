@@ -53,6 +53,7 @@
           </th>
           <th>
             <select
+              v-model="vm.preset"
               class="input-select-box"
               @change="evt_change_preset($event, vm.uuids)"
             >
@@ -148,6 +149,12 @@ function evt_change_preset(event: any, vm_uuids: string[]) {
       vm.vstorage.rec = selected_preset?.storage ?? 0
     }
   })
+  store.vmsList.forEach((vm) => {
+    if (vm.uuids == vm_uuids) {
+      vm.preset = selected_preset?.name
+    }
+  })
+
   createToast('Preset updated!', TOAST_SUCCESS)
 }
 </script>

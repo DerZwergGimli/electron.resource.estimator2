@@ -3,6 +3,7 @@ export interface VM {
   uuids: string[];
   name: string;
   os: string;
+  preset: string | undefined;
   vcpu: SystemRecommendations;
   vram: SystemRecommendations;
   vstorage: SystemRecommendations;
