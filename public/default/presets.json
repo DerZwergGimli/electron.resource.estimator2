@@ -38,7 +38,7 @@
       "os": "Windows",
       "cpu": 1,
       "ram": 2,
-      "storage": 40
+      "storage": 50
     },
     {
       "id": 4,
@@ -46,7 +46,7 @@
       "os": "Windows",
       "cpu": 2,
       "ram": 4,
-      "storage": 50
+      "storage": 1000
     },
     {
       "id": 5,
