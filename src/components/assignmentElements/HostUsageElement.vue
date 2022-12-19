@@ -3,49 +3,28 @@
     class="flex flex-col dark:bg-slate-500 bg-slate-300 bg px-2 rounded-lg w-40 items-center"
   >
     <div>{{ text_top }}</div>
-    <div
+    <SimpleProcessBar
       v-if="hw_conf === HardwareEnums.cpu"
-      class="radial-progress bg-primary text-primary-content border-4 border-primary"
-      :style="
-        '--value: ' +
+      :value="
         calculate_percentage(
           host.cpu.sockets * host.cpu.cores * 2,
           get_used(host_uuid, VirtualHardwareEnums.vcpu)
         )
       "
-    >
-      {{
-        calculate_percentage(
-          host.cpu.sockets * host.cpu.cores * 2,
-          get_used(host_uuid, VirtualHardwareEnums.vcpu)
-        )
-      }}
-      %
-    </div>
-    <div
+    />
+    <SimpleProcessBar
       v-if="hw_conf === HardwareEnums.ram"
-      class="radial-progress bg-primary text-primary-content border-4 border-primary"
-      :style="
-        '--value: ' +
+      :value="
         calculate_percentage(
           host.ram.slots * host.ram.size,
           get_used(host_uuid, VirtualHardwareEnums.vram)
         )
       "
-    >
-      {{
-        calculate_percentage(
-          host.ram.slots * host.ram.size,
-          get_used(host_uuid, VirtualHardwareEnums.vram)
-        )
-      }}
-      %
-    </div>
-    <div
+    />
+
+    <SimpleProcessBar
       v-if="hw_conf === HardwareEnums.storage"
-      class="radial-progress bg-primary text-primary-content border-4 border-primary"
-      :style="
-        '--value: ' +
+      :value="
         calculate_percentage(
           caluclate_raid(
             host.storage.amount,
@@ -56,20 +35,8 @@
           get_used(host_uuid, VirtualHardwareEnums.vstorage)
         )
       "
-    >
-      {{
-        calculate_percentage(
-          caluclate_raid(
-            host.storage.amount,
-            host.storage.size,
-            host.storage.raid,
-            1
-          ),
-          get_used(host_uuid, VirtualHardwareEnums.vstorage)
-        )
-      }}
-      %
-    </div>
+    />
+
     <div class="flex flex-row items-center justify-center space-x-2">
       <icon-cpu v-if="virtual_hw_conf === VirtualHardwareEnums.vcpu"></icon-cpu>
       <icon-ram
@@ -109,7 +76,7 @@ import { get_used } from '../../extra/calculator'
 import { caluclate_raid } from '../../extra/calculator_storage'
 import { HardwareEnums, VirtualHardwareEnums } from '../../store/types/enums'
 import { Host } from '../../store/types/Host'
-
+import SimpleProcessBar from '../charts/SimpleProcessBar.vue'
 import IconCpu from '../icons/IconCpu.vue'
 import IconRam from '../icons/IconRam.vue'
 import IconHdd from '../icons/IconHdd.vue'

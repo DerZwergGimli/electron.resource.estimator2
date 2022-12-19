@@ -7,8 +7,6 @@
       Reset assignments
     </button>
 
-    <button class="btn-style m-3" @click="btn_autoAssign()">AUTO assign</button>
-
     <div class="flex flex-col w-auto m-4 lg:flex-row">
       <div
         class="flex flex-grow space-y-2 p-2 card rounded-box place-items-center"
@@ -152,10 +150,6 @@ function btn_removeAssignment(host_uuid, vm_uuid) {
 function btn_clearAllAssignments() {
   storage.assignmentsList = []
   createToast('Assignments cleared!', TOAST_SUCCESS)
-}
-
-function btn_autoAssign() {
-  createToast('NOT IMPLEMENTED!', TOAST_WARNING)
 }
 </script>
 
