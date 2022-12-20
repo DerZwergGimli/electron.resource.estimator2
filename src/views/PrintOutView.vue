@@ -1,19 +1,30 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, onMounted, h } from 'vue'
 import { useAppStorage } from '../store/AppStorage'
 import { jsPDF } from 'jspdf'
 import autoTable from 'jspdf-autotable'
+import html2canvas from 'html2canvas'
 
 import { caluclate_raid } from '../extra/calculator_storage'
 import { RAIDEnums } from '../store/types/enums'
 
+import ProgressBarPDF from '../components/jspdf/ProgressBarPDF.vue'
+import { addResources } from '../jsPDF/usedResources'
+import { draw_CoverSheet, draw_HostListPage } from '../jsPDF/drawPages'
+
 const store = useAppStorage()
-const doc = new jsPDF()
-
-generatePDF()
-
+const doc = new jsPDF('p', 'mm', 'a4')
+const pdf_width = doc.internal.pageSize.getWidth()
+const pdf_height = doc.internal.pageSize.getHeight()
 const pdfFile = ref()
-pdfFile.value = doc.output('datauristring')
+const images_bars = [] as HTMLCanvasElement[]
+
+const charts_to_image = ref(null)
+
+onMounted(async () => {
+  await generatePDF()
+  pdfFile.value = doc.output('datauristring')
+})
 
 const host_table_elements = store.hostsList.map((host, index) => [
   index,
@@ -33,120 +44,12 @@ const vm_table_elements = store.vmsList.map((vm, index) => [
   vm.uuids.length,
 ])
 
-function generatePDF() {
-  doc.setFontSize(15)
-
-  //Info PAGE
-  doc.text(
-    'Virtual Environment Estimator ',
-    doc.internal.pageSize.getWidth() / 2,
-    50,
-    {
-      align: 'center',
-    }
-  )
-
-  doc.text('Report', doc.internal.pageSize.getWidth() / 2, 60, {
-    align: 'center',
-  })
-  doc.setFontSize(10)
-  doc.text(
-    new Date().toLocaleDateString(),
-    doc.internal.pageSize.getWidth() / 2,
-    250,
-    {
-      align: 'center',
-    }
-  )
-  doc.text(
-    'Tool-Version ' + process.env.npm_package_version ?? 'error',
-    doc.internal.pageSize.getWidth() / 2,
-    255,
-    {
-      align: 'center',
-    }
-  )
-
-  doc.setFontSize(15)
-
-  //region Host PAGE
+async function generatePDF() {
+  draw_CoverSheet(doc)
   doc.addPage()
-  doc.text('List of all Hosts', doc.internal.pageSize.getWidth() / 2, 20, {
-    align: 'center',
-  })
 
-  let body_hosts = store.hostsList.map((host, index) => {
-    return [
-      index,
-      host.name,
-      host.cpu.cores * host.cpu.sockets + ' Cores',
-      host.ram.size * host.ram.slots + ' GB',
-      host.storage.size * host.storage.amount + ' GB',
-      host.uuids.length,
-    ]
-  })
-
-  body_hosts.push([
-    'Sum',
-    '',
-    store.hostsList.reduce((a, b) => a + b.cpu.cores * b.cpu.sockets, 0) +
-      ' Cores',
-    store.hostsList.reduce((a, b) => a + b.ram.size * b.ram.slots, 0) + ' GB',
-    store.hostsList.reduce((a, b) => a + b.storage.size * b.storage.amount, 0) +
-      ' GB',
-    store.hostsList.reduce((a, b) => a + b.uuids.length, 0),
-  ])
-
-  autoTable(doc, {
-    startY: 30,
-    head: [['ID', 'Name', 'CPU', 'RAM', 'Storage', 'Amount']],
-    body: body_hosts,
-    didParseCell: function (data) {
-      var rows = data.table.body
-      if (data.row.index === rows.length - 1) {
-        data.cell.styles.fillColor = '#8FE6FC'
-      }
-    },
-  })
-  //endregion
-
-  //region VM PAGE
+  draw_HostListPage(doc)
   doc.addPage()
-  doc.text('List of all VMs ', doc.internal.pageSize.getWidth() / 2, 20, {
-    align: 'center',
-  })
-
-  let body_vms = store.vmsList.map((vm, index) => {
-    return [
-      index,
-      vm.name,
-      vm.vcpu.rec.toString() + ' Cores',
-      vm.vram.rec.toString() + ' GB',
-      vm.vstorage.rec.toString() + ' GB',
-      vm.uuids.length,
-    ]
-  })
-
-  body_vms.push([
-    'Sum',
-    '',
-    store.vmsList.reduce((a, b) => a + b.vcpu.rec, 0) + ' Cores',
-    store.vmsList.reduce((a, b) => a + b.vram.rec, 0) + ' GB',
-    store.vmsList.reduce((a, b) => a + b.vstorage.rec, 0) + ' GB',
-    store.vmsList.reduce((a, b) => a + b.uuids.length, 0),
-  ])
-
-  autoTable(doc, {
-    startY: 30,
-    head: [['ID', 'Name', 'CPU', 'RAM', 'Storage', 'Amount']],
-    body: body_vms,
-    didParseCell: function (data) {
-      var rows = data.table.body
-      if (data.row.index === rows.length - 1) {
-        data.cell.styles.fillColor = '#8FE6FC'
-      }
-    },
-  })
 
   //Assignments PAGE
   doc.addPage()
@@ -156,15 +59,17 @@ function generatePDF() {
 
   doc.addPage()
 
-  store.assignmentsList.forEach((assignment, index) => {
+  for (let i = 0; i < store.assignmentsList.length; i++) {
+    var offsetY = 20
+
     let current_host = store.hostsList.find((host) =>
-      host.uuids.some((uuid) => uuid === assignment.host_uuid)
+      host.uuids.some((uuid) => uuid === store.assignmentsList[i].host_uuid)
     )
 
     doc.text(
       current_host?.name ?? 'error',
       doc.internal.pageSize.getWidth() / 2,
-      20,
+      offsetY,
       {
         align: 'center',
       }
@@ -172,17 +77,17 @@ function generatePDF() {
     doc.setFontSize(9)
     doc.text('UUID:', 15, 30)
     doc.text('Index:', 150, 30, { align: 'right' })
-    doc.text(index.toString() ?? 'error', 160, 30, { align: 'left' })
-    doc.text(assignment.host_uuid ?? 'error', 40, 30)
+    doc.text(i.toString() ?? 'error', 160, 30, { align: 'left' })
+    doc.text(store.assignmentsList[i].host_uuid ?? 'error', 40, 30)
     doc.text('Manufacturer:', 15, 35)
+    offsetY += 20
     doc.text(
       store.hostsList.find((host) =>
-        host.uuids.some((uuid) => uuid == assignment.host_uuid)
+        host.uuids.some((uuid) => uuid == store.assignmentsList[i].host_uuid)
       )?.manufacturer ?? 'error',
-      40,
+      offsetY,
       35
     )
-    doc.setFontSize(15)
 
     let body_assignments = [
       [
@@ -246,7 +151,7 @@ function generatePDF() {
 
     autoTable(doc, {
       theme: 'grid',
-      startY: 40,
+      startY: offsetY,
       head: [
         [
           {
@@ -270,13 +175,18 @@ function generatePDF() {
       body: body_assignments,
     })
 
+    offsetY += 35
+    addResources(doc, offsetY, 'Used Resources', 10, 20, 70)
+    offsetY += 20
+
+    doc.setFontSize(15)
+
     let body_vms: any[] = []
 
-    for (let i = 0; i < assignment.vm_uuid.length; i++) {
+    for (let i = 0; i < store.assignmentsList[i].vm_uuid.length; i++) {
       store.vmsList.forEach((vm) => {
         vm.uuids.forEach((uuid) => {
-          if (uuid === assignment.vm_uuid[i]) {
-            console.log(uuid)
+          if (uuid === store.assignmentsList[i].vm_uuid[i]) {
             let row = [
               vm.name,
               vm.vcpu.rec.toString() + ' Cores',
@@ -290,7 +200,7 @@ function generatePDF() {
     }
 
     body_vms.push([
-      'Total',
+      'SUM',
       body_vms.reduce((a, b) => a + parseInt(b[1].replace(' Cores', '')), 0) +
         ' Cores',
       body_vms.reduce((a, b) => a + parseInt(b[2].replace(' GB', '')), 0) +
@@ -301,6 +211,7 @@ function generatePDF() {
 
     autoTable(doc, {
       head: [['Name', 'CPU', 'RAM', 'Storage']],
+      startY: offsetY,
       body: body_vms,
       didParseCell: function (data) {
         var rows = data.table.body
@@ -310,10 +221,10 @@ function generatePDF() {
       },
     })
 
-    if (store.assignmentsList.length - 1 > index) {
+    if (store.assignmentsList.length - 1 > i) {
       doc.addPage()
     }
-  })
+  }
 }
 
 function downloadPDF() {
@@ -327,6 +238,11 @@ function downloadPDF() {
     <div class="divider"></div>
 
     <button class="btn-style m-3" @click="downloadPDF()">generate pdf</button>
+    <div ref="html" style="width: 595.28px; color: black; background: white">
+      <h3>PDF for Test</h3>
+      <p>Here is some content for testing!!</p>
+    </div>
+
     <iframe
       class="p-3 flex flex-grow"
       width="100%"
