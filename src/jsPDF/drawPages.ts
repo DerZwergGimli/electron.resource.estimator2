@@ -11,7 +11,7 @@ export function draw_CoverSheet(doc: jsPDF) {
 
     doc.setFontSize(15)
     doc.text(
-        'Virtual Environment Estimator ',
+        'Virtual Environment Estimator',
         doc.internal.pageSize.getWidth() / 2,
         50,
         {
@@ -60,7 +60,7 @@ export function draw_HostListPage(doc: jsPDF) {
     })
 
     body_hosts.push([
-        'Sum',
+        'sum',
         '',
         useAppStorage().hostsList.reduce((a, b) => a + b.cpu.cores * b.cpu.sockets, 0) +
         ' Cores',

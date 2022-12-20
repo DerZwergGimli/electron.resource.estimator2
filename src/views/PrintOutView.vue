@@ -12,6 +12,8 @@ import {
   draw_AssignmentPage,
 } from '../jsPDF/drawPages'
 
+import { draw_CodePage } from '../jsPDF/exportCode'
+
 const store = useAppStorage()
 const doc = new jsPDF('p', 'mm', 'a4')
 const pdf_width = doc.internal.pageSize.getWidth()
@@ -56,6 +58,8 @@ async function generatePDF() {
 
   draw_AssignmentPage(doc)
   doc.addPage()
+
+  draw_CodePage(doc)
 }
 
 function downloadPDF() {
