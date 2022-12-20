@@ -31,6 +31,7 @@ const store = useAppStorage()
 function clk_addVM() {
   store.vmsList.push({
     id: store.vmsList.length,
+    preset: undefined,
     uuids: [uuid.v4()],
     name: 'new_vm',
     os: 'none',

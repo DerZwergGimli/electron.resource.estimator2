@@ -1,5 +1,5 @@
 import { useAppStorage } from '../store/AppStorage'
-import { caluclate_raid } from './calculator_storage'
+import { calculate_raid } from './calculator_storage'
 
 export function find_host(host_uuid: string) {
   const storage = useAppStorage()
@@ -33,7 +33,7 @@ export function find_host_Storage_total(host_uuid: string) {
   const host = storage.hostsList.find((host) => host.uuids.includes(host_uuid))
 
   if (host) {
-    return caluclate_raid(
+    return calculate_raid(
       host.storage.amount,
       host.storage.size,
       host.storage.raid,
