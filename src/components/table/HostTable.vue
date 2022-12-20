@@ -122,7 +122,7 @@
                 <icon-calculator />
                 <p class="text-sm pt-1">
                   {{
-                    caluclate_raid(
+                    calculate_raid(
                       host.storage.amount,
                       host.storage.size,
                       host.storage.raid,
@@ -169,7 +169,7 @@ import { Host } from '../../store/types/Host'
 import { Icon } from '@iconify/vue'
 import {
   calculate_storage_netto,
-  caluclate_raid,
+  calculate_raid,
 } from '../../extra/calculator_storage'
 import { RAIDEnums } from '../../store/types/enums'
 import HostResources from '../../components/table/table_elements/HostResources.vue'

@@ -26,7 +26,7 @@
       v-if="hw_conf === HardwareEnums.storage"
       :value="
         calculate_percentage(
-          caluclate_raid(
+          calculate_raid(
             host.storage.amount,
             host.storage.size,
             host.storage.raid,
@@ -57,7 +57,7 @@
         </p>
         <p v-if="hw_conf === HardwareEnums.storage">
           {{
-            caluclate_raid(
+            calculate_raid(
               host.storage.amount,
               host.storage.size,
               host.storage.raid,
@@ -73,7 +73,7 @@
 <script setup lang="ts">
 import { defineProps, PropType, unref } from 'vue'
 import { get_used } from '../../extra/calculator'
-import { caluclate_raid } from '../../extra/calculator_storage'
+import { calculate_raid } from '../../extra/calculator_storage'
 import { HardwareEnums, VirtualHardwareEnums } from '../../store/types/enums'
 import { Host } from '../../store/types/Host'
 import SimpleProcessBar from '../charts/SimpleProcessBar.vue'
