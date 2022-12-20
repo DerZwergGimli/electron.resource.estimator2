@@ -13,7 +13,7 @@ export function calculate_storage_netto(
   return storage_netto(storage_amount, storage_size).toFixed(decimals)
 }
 
-export function caluclate_raid(
+export function calculate_raid(
   storage_amount: number,
   storage_size: number,
   raid_config: RAIDEnums,
