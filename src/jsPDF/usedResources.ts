@@ -1,79 +1,45 @@
 import { jsPDF } from 'jspdf'
 
-export function addResources(doc: jsPDF, offset_y: number, title: string, cpu_percentage: number, ram_percentage: number, storage_percentage: number) {
+export function addResources(doc: jsPDF, offset_y: number, cpu_percentage: number, ram_percentage: number, storage_percentage: number) {
     const page_with = doc.internal.pageSize.getWidth()
-    const page_margin = 20
-    const page_with_usable = page_with - page_margin * 2
-
-    doc.text(
-        title,
-        doc.internal.pageSize.getWidth() / 2,
-        offset_y,
-        {
-            align: 'center',
-        }
-    )
+    const bar_width = 20
 
 
-    for (let i = 0; i < 3; i++) {
-        const bar_width = 20
-        const spacing_x = 20
+    doc.rect(46,
+        offset_y + 4,
+        bar_width,
+        5, 'S')
+    doc.setFillColor("#0112ff")
+    doc.rect(46,
+        offset_y + 4,
+        bar_width * (cpu_percentage / 100),
+        5, 'F')
+    doc.text(cpu_percentage.toFixed(1) + '%', 46 + bar_width + 1, offset_y + 7.5)
 
-        var resource_text = ''
-        var percentage_fill = 0
 
-        doc.text(resource_text, page_margin + ((bar_width + spacing_x) * i) - 3, offset_y + 9)
-        doc.roundedRect(
-            page_margin + ((bar_width + spacing_x) * i) + 10,
-            offset_y + 5,
-            bar_width,
-            5,
-            2,
-            2,
-            'S'
-        )
-
-        switch (i) {
-            case 0:
-                resource_text = 'CPU';
-                percentage_fill = cpu_percentage / 100;
-                doc.setFillColor("#1cf100")
-                break;
-            case 1:
-                resource_text = 'RAM';
-                percentage_fill = ram_percentage / 100;
-                doc.setFillColor("#01fff2")
-                break;
-            case 2:
-                resource_text = 'Storage';
-                percentage_fill = storage_percentage / 100;
-                doc.setFillColor("#0112ff")
-                break;
-            default:
-                resource_text = 'error';
-                percentage_fill = 50 / 100;
-                break;
-        }
+    doc.rect(96,
+        offset_y + 4,
+        bar_width,
+        5, 'S')
+    doc.setFillColor("#0112ff")
+    doc.rect(96,
+        offset_y + 4,
+        bar_width * (ram_percentage / 100),
+        5, 'F')
+    doc.text(ram_percentage.toFixed(1) + '%', 96 + bar_width + 1, offset_y + 7.5)
 
 
 
-
-
-
-
-
-        doc.roundedRect(
-            page_margin + ((bar_width + spacing_x) * i) + 10,
-            offset_y + 5,
-            bar_width * percentage_fill,
-            5,
-            2,
-            2,
-            'F'
-        )
-    }
-
-
+    doc.rect(134,
+        offset_y + 4,
+        bar_width,
+        5, 'S')
+    doc.setFillColor("#0112ff")
+    doc.rect(134,
+        offset_y + 4,
+        bar_width * (storage_percentage / 100),
+        5, 'F')
+    doc.text(storage_percentage.toFixed(1) + '%', 134 + bar_width + 1, offset_y + 7.5)
 
 
 

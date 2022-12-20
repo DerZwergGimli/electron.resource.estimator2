@@ -38,7 +38,6 @@ export function draw_CoverSheet(doc: jsPDF) {
     )
 
     doc.setFontSize(15)
-
 }
 
 export function draw_HostListPage(doc: jsPDF) {
@@ -62,11 +61,18 @@ export function draw_HostListPage(doc: jsPDF) {
     body_hosts.push([
         'sum',
         '',
-        useAppStorage().hostsList.reduce((a, b) => a + b.cpu.cores * b.cpu.sockets, 0) +
-        ' Cores',
-        useAppStorage().hostsList.reduce((a, b) => a + b.ram.size * b.ram.slots, 0) + ' GB',
-        useAppStorage().hostsList.reduce((a, b) => a + b.storage.size * b.storage.amount, 0) +
-        ' GB',
+        useAppStorage().hostsList.reduce(
+            (a, b) => a + b.cpu.cores * b.cpu.sockets,
+            0
+        ) + ' Cores',
+        useAppStorage().hostsList.reduce(
+            (a, b) => a + b.ram.size * b.ram.slots,
+            0
+        ) + ' GB',
+        useAppStorage().hostsList.reduce(
+            (a, b) => a + b.storage.size * b.storage.amount,
+            0
+        ) + ' GB',
         useAppStorage().hostsList.reduce((a, b) => a + b.uuids.length, 0),
     ])
 
@@ -121,7 +127,6 @@ export function draw_VMListPage(doc: jsPDF) {
             }
         },
     })
-
 }
 
 export function draw_AssignmentPage(doc: jsPDF) {
@@ -135,7 +140,9 @@ export function draw_AssignmentPage(doc: jsPDF) {
         var offsetY = 20
 
         let current_host = useAppStorage().hostsList.find((host) =>
-            host.uuids.some((uuid) => uuid === useAppStorage().assignmentsList[i].host_uuid)
+            host.uuids.some(
+                (uuid) => uuid === useAppStorage().assignmentsList[i].host_uuid
+            )
         )
 
         doc.text(
@@ -155,7 +162,9 @@ export function draw_AssignmentPage(doc: jsPDF) {
         offsetY += 20
         doc.text(
             useAppStorage().hostsList.find((host) =>
-                host.uuids.some((uuid) => uuid == useAppStorage().assignmentsList[i].host_uuid)
+                host.uuids.some(
+                    (uuid) => uuid == useAppStorage().assignmentsList[i].host_uuid
+                )
             )?.manufacturer ?? 'error',
             offsetY,
             35
@@ -164,37 +173,45 @@ export function draw_AssignmentPage(doc: jsPDF) {
         let body_assignments = [
             [
                 {
-                    content: current_host?.cpu.sockets.toString() ?? 'error',
+                    content: '',
                     colSpan: 1,
                 },
                 {
-                    content: current_host?.cpu.cores.toString() ?? 'error',
+                    content: current_host?.cpu.sockets.toString().padEnd(5, ' ') ?? 'error',
                     colSpan: 1,
                 },
                 {
-                    content: current_host?.ram.slots.toString() ?? 'error',
+                    content: current_host?.cpu.cores.toString().padEnd(5, ' ') ?? 'error',
                     colSpan: 1,
                 },
                 {
-                    content: current_host?.ram.size.toString() ?? 'error',
+                    content: current_host?.ram.slots.toString().padEnd(5, ' ') ?? 'error',
                     colSpan: 1,
                 },
                 {
-                    content: current_host?.storage.amount.toString() ?? 'error',
+                    content: current_host?.ram.size.toString().padEnd(5, ' ') ?? 'error',
                     colSpan: 1,
                 },
                 {
-                    content: current_host?.storage.size.toString() ?? 'error',
+                    content: current_host?.storage.amount.toString().padEnd(5, ' ') ?? 'error',
                     colSpan: 1,
                 },
                 {
-                    content: current_host?.storage.raid.toString() ?? 'error',
+                    content: current_host?.storage.size.toString().padEnd(5, ' ') ?? 'error',
+                    colSpan: 1,
+                },
+                {
+                    content: current_host?.storage.raid.toString().padEnd(5, ' ') ?? 'error',
                     colSpan: 1,
                 },
             ],
         ]
 
         body_assignments.push([
+            {
+                content: 'Available',
+                colSpan: 1,
+            },
             {
                 content:
                     (
@@ -221,11 +238,127 @@ export function draw_AssignmentPage(doc: jsPDF) {
             },
         ])
 
+        let body_vms: any[] = []
+        for (
+            let j = 0;
+            j < useAppStorage().assignmentsList[i].vm_uuid.length;
+            j++
+        ) {
+            useAppStorage().vmsList.forEach((vm) => {
+                vm.uuids.forEach((uuid) => {
+                    if (uuid === useAppStorage().assignmentsList[i].vm_uuid[j]) {
+                        let row = [
+                            {
+                                content: vm.name,
+                                colSpan: 1,
+                                styles: { halign: 'left' },
+                            },
+                            {
+                                content: vm.vcpu.rec.toString() + ' Cores',
+                                colSpan: 1,
+                                styles: { halign: 'right' },
+                            },
+                            {
+                                content: vm.vram.rec.toString() + ' GB',
+                                colSpan: 1,
+                                styles: { halign: 'right' },
+                            },
+                            {
+                                content: vm.vstorage.rec.toString() + ' GB',
+                                colSpan: 1,
+                                styles: { halign: 'right' },
+                            }
+                        ]
+                        body_vms.push(row)
+                    }
+                })
+            })
+        }
+
+        const used_cpu = body_vms.reduce(
+            (a, b) => a + parseInt(b[1].content.replace(' Cores', '')),
+            0
+        )
+        const used_ram = body_vms.reduce(
+            (a, b) => a + parseInt(b[2].content.replace(' GB', '')),
+            0
+        )
+        const used_storage = body_vms.reduce(
+            (a, b) => a + parseInt(b[3].content.replace(' GB', '')),
+            0
+        )
+
+        body_vms.push([
+            {
+                content: 'SUM',
+                colSpan: 1,
+                styles: { halign: 'left' },
+            },
+            {
+                content: used_cpu + ' Cores',
+                colSpan: 1,
+                styles: { halign: 'right' },
+            },
+            {
+                content: used_ram + ' GB',
+                colSpan: 1,
+                styles: { halign: 'right' },
+            },
+            {
+                content: used_storage + ' GB',
+                colSpan: 1,
+                styles: { halign: 'right' },
+            }
+        ])
+
+        body_assignments.push([
+            {
+                content: 'Used',
+                colSpan: 1,
+            },
+            {
+                content: used_cpu.toString() + ' Cores',
+                colSpan: 2,
+            },
+            {
+                content: used_ram.toString() + ' GB',
+                colSpan: 2,
+            },
+            {
+                content: used_storage.toString() + ' GB',
+                colSpan: 3,
+            },
+        ])
+
+        body_assignments.push([
+            {
+                content: '',
+                colSpan: 1,
+            },
+            {
+                content: '',
+                colSpan: 2,
+            },
+            {
+                content: '',
+                colSpan: 2,
+            },
+            {
+                content: '',
+                colSpan: 3,
+            },
+        ])
+
         autoTable(doc, {
             theme: 'grid',
             startY: offsetY,
             head: [
                 [
+                    {
+                        content: '',
+                        colSpan: 1,
+                        styles: { halign: 'center' },
+                    },
                     {
                         content: 'CPU',
                         colSpan: 2,
@@ -242,47 +375,59 @@ export function draw_AssignmentPage(doc: jsPDF) {
                         styles: { halign: 'center' },
                     },
                 ],
-                ['sockets', 'cores', 'slots', 'size', 'amount', 'size', 'RAID'],
+                ['', 'sockets', 'cores', 'slots', 'size', 'slots', 'size', 'RAID'],
             ],
             body: body_assignments,
         })
 
         offsetY += 35
-        addResources(doc, offsetY, 'Used Resources', 10, 20, 70)
+        addResources(
+            doc,
+            offsetY,
+            (used_cpu /
+                ((current_host?.cpu.sockets ?? 0) * (current_host?.cpu.cores ?? 0))) *
+            100,
+            (used_ram /
+                ((current_host?.ram.slots ?? 0) * (current_host?.ram.size ?? 0))) *
+            100,
+            (used_storage /
+                calculate_raid(
+                    current_host?.storage.amount ?? 0,
+                    current_host?.storage.size ?? 0,
+                    current_host?.storage.raid ?? RAIDEnums.R0,
+                    1
+                )) *
+            100
+        )
         offsetY += 20
 
         doc.setFontSize(15)
 
-        let body_vms: any[] = []
-
-        for (let i = 0; i < useAppStorage().assignmentsList[i].vm_uuid.length; i++) {
-            useAppStorage().vmsList.forEach((vm) => {
-                vm.uuids.forEach((uuid) => {
-                    if (uuid === useAppStorage().assignmentsList[i].vm_uuid[i]) {
-                        let row = [
-                            vm.name,
-                            vm.vcpu.rec.toString() + ' Cores',
-                            vm.vram.rec.toString() + ' GB',
-                            vm.vstorage.rec.toString() + ' GB',
-                        ]
-                        body_vms.push(row)
-                    }
-                })
-            })
-        }
-
-        body_vms.push([
-            'SUM',
-            body_vms.reduce((a, b) => a + parseInt(b[1].replace(' Cores', '')), 0) +
-            ' Cores',
-            body_vms.reduce((a, b) => a + parseInt(b[2].replace(' GB', '')), 0) +
-            ' GB',
-            body_vms.reduce((a, b) => a + parseInt(b[3].replace(' GB', '')), 0) +
-            ' GB',
-        ])
-
         autoTable(doc, {
-            head: [['Name', 'CPU', 'RAM', 'Storage']],
+            head: [
+                [
+                    {
+                        content: 'VM-Name',
+                        colSpan: 1,
+                        styles: { halign: 'left' },
+                    },
+                    {
+                        content: 'vCPU',
+                        colSpan: 1,
+                        styles: { halign: 'center' },
+                    },
+                    {
+                        content: 'vRAM',
+                        colSpan: 1,
+                        styles: { halign: 'center' },
+                    },
+                    {
+                        content: 'vStorage',
+                        colSpan: 1,
+                        styles: { halign: 'center' },
+                    },
+                ],
+            ],
             startY: offsetY,
             body: body_vms,
             didParseCell: function (data) {
