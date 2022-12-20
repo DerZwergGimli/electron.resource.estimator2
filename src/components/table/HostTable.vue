@@ -151,7 +151,7 @@
           </td>
           <td>
             <button
-              class="btn-style"
+              class="btn-style-del"
               @click="$emit('clk_remove_item', host.uuids)"
             >
               <icon-trash />

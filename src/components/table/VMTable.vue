@@ -100,7 +100,7 @@
           </th>
           <th>
             <button
-              class="btn-style"
+              class="btn-style-del"
               @click="$emit('clk_remove_item', vm.uuids)"
             >
               <icon-trash />

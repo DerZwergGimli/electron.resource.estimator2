@@ -16,7 +16,11 @@
       <p>{{ vm.vstorage[system_recommendation] }}</p>
       <i class="bi bi-device-hdd"></i>
     </div>
-    <button v-if="show_button" @click="$emit('clk_remove')" class="btn btn-xs">
+    <button
+      v-if="show_button"
+      @click="$emit('clk_remove')"
+      class="btn-style-del btn-xs"
+    >
       <icon-trash />
     </button>
   </div>

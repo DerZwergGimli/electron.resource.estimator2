@@ -50,3 +50,7 @@ td {
 .btn-style {
   @apply btn  hover:bg-primary
 }
+
+.btn-style-del {
+  @apply btn btn-xs hover:bg-red-700
+}
