@@ -414,17 +414,17 @@ export function draw_AssignmentPage(doc: jsPDF) {
                     {
                         content: 'vCPU',
                         colSpan: 1,
-                        styles: { halign: 'center' },
+                        styles: { halign: 'right' },
                     },
                     {
                         content: 'vRAM',
                         colSpan: 1,
-                        styles: { halign: 'center' },
+                        styles: { halign: 'right' },
                     },
                     {
                         content: 'vStorage',
                         colSpan: 1,
-                        styles: { halign: 'center' },
+                        styles: { halign: 'right' },
                     },
                 ],
             ],
