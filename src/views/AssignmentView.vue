@@ -138,7 +138,7 @@ defineComponent({
 
 const storage = useAppStorage()
 
-const show_as_grid = ref(false)
+const show_as_grid = ref(true)
 
 onMounted(async () => {
   await storage.init()

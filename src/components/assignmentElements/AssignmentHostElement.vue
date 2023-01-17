@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-col" v-if="host">
+  <div class="flex flex-col dark:text-white" v-if="host">
     <div class="flex flex-row self-center pb-2 items-center">
       <p class="text-2xl font-bold">{{ host.name }}</p>
 

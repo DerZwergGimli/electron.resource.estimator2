@@ -6,7 +6,7 @@ import IconMoon from '~/components/icons/IconMoon.vue'
 
 <template>
   <div
-    class="flex hover:op80 justify-center m2 op30 text-2xl"
+    class="flex hover:op80 justify-center m2 op30 text-2xl items-center"
     @click="useThemeStore().toggleDark()"
   >
     <icon-moon v-if="useThemeStore().is_dark" />

@@ -1,29 +1,33 @@
-<template>
-  <div class="navigation mb-5 border-b-2 border-purple-600">
-    <div class="flex-1">
-      <a class="btn btn-ghost normal-case text-xl space-x-2">
-        <img class="object-contain h-5" src="/public/logo.png" alt="app-logo" />
-        <p>Resource Capacity Estimator</p>
-      </a>
-    </div>
-    <div class="flex-none">
-      <ul class="menu menu-horizontal p-0">
-        <li><router-link to="/">Home</router-link></li>
-        <li><router-link to="/import">Import</router-link></li>
-        <li><router-link to="/export">Export</router-link></li>
-        <li><router-link to="/host">Host</router-link></li>
-        <li><router-link to="/vm">VM</router-link></li>
-        <li><router-link to="/assignment">Assignment</router-link></li>
-        <li><router-link to="/printout">Print</router-link></li>
-        <li><router-link to="/about">About</router-link></li>
-        <li><switch-theme /></li>
-      </ul>
-    </div>
-  </div>
-</template>
-<script>
+<script setup lang="ts">
+import { Navbar, NavbarLogo, NavbarCollapse, NavbarLink } from 'flowbite-vue'
 import SwitchTheme from '~/components/button/SwitchTheme.vue'
-export default {
-  components: { SwitchTheme },
-}
 </script>
+
+<template>
+  <Navbar solid class="mb-5 border-b-2 border-purple-600">
+    <template #logo>
+      <NavbarLogo link="#" alt="RCE_Logo" image-url="/public/logo.png">
+        Resource Capacity Estimator
+      </NavbarLogo>
+    </template>
+    <template #default="{ isShowMenu }">
+      <NavbarCollapse :isShowMenu="isShowMenu">
+        <router-link to="/">Home</router-link>
+        <router-link to="/import">Import</router-link>
+        <router-link to="/export">Export</router-link>
+        <router-link to="/host">Host</router-link>
+        <router-link to="/vm">VM</router-link>
+        <router-link to="/assignment">Assignment</router-link>
+        <router-link to="/printout">Print</router-link>
+        <router-link to="/about">About</router-link>
+      </NavbarCollapse>
+      <switch-theme />
+    </template>
+  </Navbar>
+</template>
+
+<style scoped>
+.router-link-active {
+  color: grey;
+}
+</style>
