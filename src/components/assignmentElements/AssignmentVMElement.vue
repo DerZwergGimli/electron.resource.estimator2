@@ -4,17 +4,17 @@
     v-if="vm"
   >
     <p class="basis-2/5 text-lg w-full">{{ vm.name }}</p>
-    <div class="basis-1/5 justify-end flex flex-row space-x-1">
+    <div class="basis-1/5 justify-end items-center flex flex-row space-x-1">
       <p>{{ vm.vcpu[system_recommendation] }}</p>
-      <i class="bi bi-cpu"></i>
+      <icon-cpu />
     </div>
-    <div class="basis-1/5 justify-end flex flex-row space-x-1">
+    <div class="basis-1/5 justify-end items-center flex flex-row space-x-1">
       <p>{{ vm.vram[system_recommendation] }}</p>
-      <i class="bi bi-memory"></i>
+      <icon-ram />
     </div>
-    <div class="basis-1/5 justify-end flex flex-row space-x-1">
+    <div class="basis-1/5 justify-end items-center flex flex-row space-x-1">
       <p>{{ vm.vstorage[system_recommendation] }}</p>
-      <i class="bi bi-device-hdd"></i>
+      <icon-hdd />
     </div>
     <button
       v-if="show_button"
@@ -31,6 +31,9 @@ import { defineProps, PropType } from 'vue'
 import { VM } from '../../store/types/VM'
 import { SystemRecommendationEnums } from '../../store/types/enums'
 import IconTrash from '../icons/IconTrash.vue'
+import IconCpu from '../icons/IconCpu.vue'
+import IconRam from '../icons/IconRam.vue'
+import IconHdd from '../icons/IconHdd.vue'
 
 defineProps({
   show_button: {

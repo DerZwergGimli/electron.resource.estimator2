@@ -1,5 +1,5 @@
 <template>
-  <div class="host flex flex-col text-center">
+  <div class="flex flex-col text-center">
     <button class="btn-style m-3" @click="btn_clearAllAssignments()">
       Reset assignments
     </button>
@@ -11,7 +11,7 @@
         <toggle-button text="Grid/Row" @toggle="toggle_grid_row()" />
         <div class="flex flex-col w-full" v-if="show_as_grid">
           <div
-            class="flex flex-col space-y-1 w-full px-10"
+            class="flex flex-col w-full"
             v-for="vm_element in storage.vmsList"
             :key="vm_element"
           >
@@ -31,6 +31,7 @@
                 @dragstart="on_dragStart($event, vm_element_uuid)"
               >
                 <AssignmentVMElement
+                  class="mb-2"
                   id="dragComponent"
                   :vm="
                     storage.vmsList.find((vm) =>
@@ -51,12 +52,12 @@
       >
         <Accordion
           always-open
-          class="w-full px-2"
+          class="w-full pr-3"
           v-for="host_element in storage.hostsList"
           :key="host_element"
         >
           <accordion-panel
-            class="rounded-xl drop-zone"
+            class="drop-zone"
             @drop="on_drop($event, host_element_uuid)"
             @dragover.prevent
             @dragenter.prevent
