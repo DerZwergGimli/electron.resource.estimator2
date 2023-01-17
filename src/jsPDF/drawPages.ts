@@ -401,7 +401,11 @@ export function draw_AssignmentPage(doc: jsPDF) {
         )
         offsetY += 20
 
+        doc.setFontSize(10)
+        doc.text('Assigned VMs:', 15, offsetY)
         doc.setFontSize(15)
+
+        offsetY += 5
 
         autoTable(doc, {
             head: [

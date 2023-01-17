@@ -13,6 +13,7 @@ import {
 } from '../jsPDF/drawPages'
 
 import { draw_CodePage } from '../jsPDF/exportCode'
+import { addPageNumbers } from '../jsPDF/helperJSPDF'
 
 const store = useAppStorage()
 const doc = new jsPDF('p', 'mm', 'a4')
@@ -60,6 +61,8 @@ async function generatePDF() {
   doc.addPage()
 
   draw_CodePage(doc)
+
+  addPageNumbers(doc)
 }
 
 function downloadPDF() {
