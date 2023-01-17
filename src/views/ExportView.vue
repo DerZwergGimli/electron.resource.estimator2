@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-col base-content">
+  <div class="flex flex-col base-content border rounded-md m-5 p-3">
     <button class="btn m-4 hover:bg-primary" @click="clk_download()">
       <div class="flex flex-row space-x-2">
         <i class="bi bi-download"></i>

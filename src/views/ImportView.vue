@@ -1,7 +1,7 @@
 <template>
   <div class="flex flex-col text-center">
-    <div class="base-contentr">
-      <input class="pt-5" type="file" @change="evt_uploadFile" />
+    <div class="base-content">
+      <input type="file" @change="evt_uploadFile" />
     </div>
   </div>
 </template>

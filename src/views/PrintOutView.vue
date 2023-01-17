@@ -72,8 +72,7 @@ function downloadPDF() {
 
 <template>
   <div class="flex flex-col base-content">
-    <button class="btn-style m-3" @click="downloadPDF()">generate pdf</button>
-
+    <button class="btn-style m-3" @click="downloadPDF()">Save pdf</button>
     <iframe
       class="p-3 flex flex-grow"
       width="100%"

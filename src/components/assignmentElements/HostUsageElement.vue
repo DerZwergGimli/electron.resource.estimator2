@@ -3,7 +3,7 @@
     class="flex flex-col dark:bg-slate-500 bg-slate-300 bg px-2 rounded-lg w-40 items-center"
   >
     <div>{{ text_top }}</div>
-    <SimpleProcessBar
+    <simple-process-bar
       v-if="hw_conf === HardwareEnums.cpu"
       :value="
         calculate_percentage(
@@ -12,7 +12,7 @@
         )
       "
     />
-    <SimpleProcessBar
+    <simple-process-bar
       v-if="hw_conf === HardwareEnums.ram"
       :value="
         calculate_percentage(
@@ -22,7 +22,7 @@
       "
     />
 
-    <SimpleProcessBar
+    <simple-process-bar
       v-if="hw_conf === HardwareEnums.storage"
       :value="
         calculate_percentage(

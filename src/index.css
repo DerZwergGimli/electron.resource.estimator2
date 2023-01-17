@@ -7,8 +7,14 @@
   @apply shadow-md shadow-blue-800;
 }
 
+.base-bg {
+  @apply  dark:bg-gray-800 text-black dark:text-white;
+
+}
+
 .base-content {
   @apply  dark:bg-gray-800 text-black dark:text-white;
+  @apply  border rounded-md m-5 p-3
 }
 
 .base-headline {
@@ -18,6 +24,9 @@
 }
 
 
+h3{
+  @apply text-lg underline underline-offset-1 border-b mb-3
+}
 
 tr {
   @apply bg-white border-b dark:bg-gray-800 dark:border-gray-700;

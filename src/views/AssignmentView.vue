@@ -6,10 +6,9 @@
       </button>
       <toggle-button text="Grid/Row" @toggle="toggle_grid_row()" />
     </div>
-    <div class="flex flex-col w-auto m-4 lg:flex-row">
-      <div
-        class="flex flex-grow space-y-2 p-2 card rounded-box place-items-center"
-      >
+    <div class="flex flex-col w-auto mx-4 lg:flex-row">
+      <div class="flex flex-grow space-y-2 card rounded-box place-items-center">
+        <h3 class="w-full">Unassigned VMs</h3>
         <div class="flex flex-col w-full" v-if="show_as_grid">
           <div
             class="flex flex-col w-full"
@@ -86,6 +85,7 @@
       <div
         class="flex flex-auto card place-items-center h-screen overflow-x-auto"
       >
+        <h3 class="w-full">Hosts (with assigned VMs)</h3>
         <Accordion
           always-open
           class="w-full pr-3"
@@ -204,7 +204,7 @@ function btn_removeAssignment(host_uuid, vm_uuid) {
 
 function btn_clearAllAssignments() {
   storage.assignmentsList = []
-  createToast('Assignments cleared!', TOAST_SUCCESS)
+  createToast('Assignments cleared!', TOAST_WARNING)
 }
 </script>
 
