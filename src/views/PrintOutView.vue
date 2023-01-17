@@ -72,9 +72,6 @@ function downloadPDF() {
 
 <template>
   <div class="flex flex-col base-content">
-    <div class="base-headline">Export as PDF</div>
-    <div class="divider"></div>
-
     <button class="btn-style m-3" @click="downloadPDF()">generate pdf</button>
 
     <iframe

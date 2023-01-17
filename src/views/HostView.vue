@@ -1,7 +1,5 @@
 <template>
   <div class="host flex flex-col text-center">
-    <div class="base-headline">Host setup</div>
-    <div class="divider"></div>
     <HostTable
       class="m-3"
       :hosts="store.hostsList"

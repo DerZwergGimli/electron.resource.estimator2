@@ -1,7 +1,5 @@
 <template>
   <div class="host flex flex-col text-center">
-    <div class="base-headline">VM setup</div>
-    <div class="divider"></div>
     <VMTable
       class="m-3"
       :vms="store.vmsList"

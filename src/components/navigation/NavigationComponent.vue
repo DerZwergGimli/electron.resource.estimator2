@@ -1,12 +1,8 @@
 <template>
-  <div class="navigation">
+  <div class="navigation mb-5 border-b-2 border-purple-600">
     <div class="flex-1">
       <a class="btn btn-ghost normal-case text-xl space-x-2">
-        <img
-          class="object-contain h-5"
-          src="/public/logo.png"
-          alt="app-logo"
-        />
+        <img class="object-contain h-5" src="/public/logo.png" alt="app-logo" />
         <p>Resource Capacity Estimator</p>
       </a>
     </div>

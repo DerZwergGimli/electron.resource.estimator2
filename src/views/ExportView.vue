@@ -1,7 +1,5 @@
 <template>
   <div class="flex flex-col base-content">
-    <div class="base-headline">Export config file</div>
-    <div class="divider"></div>
     <button class="btn m-4 hover:bg-primary" @click="clk_download()">
       <div class="flex flex-row space-x-2">
         <i class="bi bi-download"></i>

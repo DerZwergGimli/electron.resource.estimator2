@@ -1,8 +1,5 @@
 <template>
   <div class="host flex flex-col text-center">
-    <div class="base-headline">Make assignments</div>
-    <div class="divider"></div>
-
     <button class="btn-style m-3" @click="btn_clearAllAssignments()">
       Reset assignments
     </button>
