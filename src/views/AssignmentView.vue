@@ -1,17 +1,53 @@
 <template>
   <div class="flex flex-col text-center">
-    <button class="btn-style m-3" @click="btn_clearAllAssignments()">
-      Reset assignments
-    </button>
-
+    <div class="flex flex-row items-center justify-end pr-5 pb-3 border-b">
+      <button class="btn-style m-3" @click="btn_clearAllAssignments()">
+        Reset assignments
+      </button>
+      <toggle-button text="Grid/Row" @toggle="toggle_grid_row()" />
+    </div>
     <div class="flex flex-col w-auto m-4 lg:flex-row">
       <div
         class="flex flex-grow space-y-2 p-2 card rounded-box place-items-center"
       >
-        <toggle-button text="Grid/Row" @toggle="toggle_grid_row()" />
         <div class="flex flex-col w-full" v-if="show_as_grid">
           <div
             class="flex flex-col w-full"
+            v-for="vm_element in storage.vmsList"
+            :key="vm_element"
+          >
+            <div
+              v-for="vm_element_uuid in vm_element.uuids"
+              :key="vm_element_uuid"
+            >
+              <div
+                v-if="
+                  !storage.assignmentsList.find((assignment) =>
+                    assignment.vm_uuid.find(
+                      (vm_uuid) => vm_uuid === vm_element_uuid
+                    )
+                  )
+                "
+                draggable="true"
+                @dragstart="on_dragStart($event, vm_element_uuid)"
+              >
+                <AssignmentVMElement
+                  class="mb-2"
+                  id="dragComponent"
+                  :vm="
+                    storage.vmsList.find((vm) =>
+                      vm.uuids.find((uuid) => uuid === vm_element_uuid)
+                    )
+                  "
+                  :system_recommendation="storage.system_recommendation"
+                ></AssignmentVMElement>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="flex flex-col w-full" v-else>
+          <div
+            class="grid grid-cols-2 w-full"
             v-for="vm_element in storage.vmsList"
             :key="vm_element"
           >

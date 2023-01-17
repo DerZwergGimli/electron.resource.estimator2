@@ -18,10 +18,12 @@ import SwitchTheme from '~/components/button/SwitchTheme.vue'
         <router-link to="/host">Host</router-link>
         <router-link to="/vm">VM</router-link>
         <router-link to="/assignment">Assignment</router-link>
-        <router-link to="/printout">Print</router-link>
+        <router-link to="/printout">PDF</router-link>
         <router-link to="/about">About</router-link>
       </NavbarCollapse>
-      <switch-theme />
+      <div class="w-4">
+        <switch-theme />
+      </div>
     </template>
   </Navbar>
 </template>
