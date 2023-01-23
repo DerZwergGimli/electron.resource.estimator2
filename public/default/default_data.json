@@ -88,10 +88,5 @@
       }
     }
   ],
-  "assignments": [
-    {
-      "host_uuid": "host000_1",
-      "vm_uuid": ["vm000_1", "vm001_2"]
-    }
-  ]
+  "assignments": []
 }

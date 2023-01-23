@@ -6,7 +6,7 @@ import SwitchTheme from '~/components/button/SwitchTheme.vue'
 <template>
   <Navbar solid class="mb-5 border-b-2 border-purple-600">
     <template #logo>
-      <NavbarLogo link="#" alt="RCE_Logo" image-url="/public/logo.png">
+      <NavbarLogo link="#" alt="RCE_Logo" image-url="./logo.png">
         Resource Capacity Estimator
       </NavbarLogo>
     </template>
