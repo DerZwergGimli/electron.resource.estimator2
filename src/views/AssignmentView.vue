@@ -6,143 +6,61 @@
       </button>
       <toggle-button text="Grid/Row" @toggle="toggle_grid_row()" />
     </div>
+
     <div class="flex flex-col w-auto mx-4 lg:flex-row">
-      <div class="flex flex-grow space-y-2 card rounded-box place-items-center">
+      <div
+        class="flex basis-1/2flex-grow space-y-2 card rounded-box place-items-center"
+      >
         <h3 class="w-full">Unassigned VMs</h3>
-        <div class="flex flex-col w-full" v-if="show_as_grid">
+        <div
+          class="grid w-full gap-4"
+          :class="show_as_grid ? 'grid-cols-2' : 'grid-cols-1'"
+        >
           <div
-            class="flex flex-col w-full"
-            v-for="vm_element in storage.vmsList"
-            :key="vm_element"
+            v-for="vm_element_uuid in unassigned_vm_uuids_list"
+            :key="vm_element_uuid"
           >
             <div
-              v-for="vm_element_uuid in vm_element.uuids"
-              :key="vm_element_uuid"
+              draggable="true"
+              @dragstart="on_dragStart($event, vm_element_uuid)"
             >
-              <div
-                v-if="
-                  !storage.assignmentsList.find((assignment) =>
-                    assignment.vm_uuid.find(
-                      (vm_uuid) => vm_uuid === vm_element_uuid
-                    )
+              <AssignmentVMElement
+                id="dragComponent"
+                :vm="
+                  storage.vmsList.find((vm) =>
+                    vm.uuids.find((uuid) => uuid === vm_element_uuid)
                   )
                 "
-                draggable="true"
-                @dragstart="on_dragStart($event, vm_element_uuid)"
-              >
-                <AssignmentVMElement
-                  class="mb-2"
-                  id="dragComponent"
-                  :vm="
-                    storage.vmsList.find((vm) =>
-                      vm.uuids.find((uuid) => uuid === vm_element_uuid)
-                    )
-                  "
-                  :system_recommendation="storage.system_recommendation"
-                ></AssignmentVMElement>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="flex flex-col w-full" v-else>
-          <div
-            class="grid grid-cols-2 w-full"
-            v-for="vm_element in storage.vmsList"
-            :key="vm_element"
-          >
-            <div
-              v-for="vm_element_uuid in vm_element.uuids"
-              :key="vm_element_uuid"
-            >
-              <div
-                v-if="
-                  !storage.assignmentsList.find((assignment) =>
-                    assignment.vm_uuid.find(
-                      (vm_uuid) => vm_uuid === vm_element_uuid
-                    )
-                  )
-                "
-                draggable="true"
-                @dragstart="on_dragStart($event, vm_element_uuid)"
-              >
-                <AssignmentVMElement
-                  class="mb-2"
-                  id="dragComponent"
-                  :vm="
-                    storage.vmsList.find((vm) =>
-                      vm.uuids.find((uuid) => uuid === vm_element_uuid)
-                    )
-                  "
-                  :system_recommendation="storage.system_recommendation"
-                ></AssignmentVMElement>
-              </div>
+                :system_recommendation="storage.system_recommendation"
+              ></AssignmentVMElement>
             </div>
           </div>
         </div>
       </div>
-      <div class="divider lg:divider-horizontal">OR</div>
-
+      <div class="divider lg:divider-horizontal"></div>
       <div
-        class="flex flex-auto card place-items-center h-screen overflow-x-auto"
+        class="flex basis-1/2 flex-auto card place-items-center h-screen overflow-x-auto"
       >
+        {{ host_uuids_list }}
         <h3 class="w-full">Hosts (with assigned VMs)</h3>
-        <Accordion
-          always-open
-          class="w-full pr-3"
-          v-for="host_element in storage.hostsList"
-          :key="host_element"
-        >
+        <Accordion flush always-open class="w-full pr-3">
           <accordion-panel
-            class="drop-zone"
-            @drop="on_drop($event, host_element_uuid)"
-            @dragover.prevent
-            @dragenter.prevent
-            v-for="(host_element_uuid, host_index) in host_element.uuids"
-            :key="host_element_uuid"
+            v-for="host_uuid in host_uuids_list"
+            :key="host_uuid"
           >
             <accordion-header>
               <AssignmentHostElement
-                :host_uuid="host_element_uuid"
+                :host_uuid="host_uuid"
                 :host="
                   storage.hostsList.find((host) =>
-                    host.uuids.find((uuid) => uuid === host_element_uuid)
+                    host.uuids.find((uuid) => uuid === host_uuid)
                   )
                 "
                 :system_recommendation="storage.system_recommendation"
-                :host_index="host_index"
+                :host_index="host_uuid"
               ></AssignmentHostElement>
             </accordion-header>
-            <accordion-content>
-              <div
-                class="space-y-1"
-                v-if="
-                  storage.assignmentsList.find(
-                    (assignment) => assignment.host_uuid === host_element_uuid
-                  )
-                "
-              >
-                <div
-                  class="flex flex-row"
-                  v-for="assigned_vm_uuid in storage.assignmentsList.find(
-                    (assignment) => assignment.host_uuid === host_element_uuid
-                  ).vm_uuid"
-                  :key="assigned_vm_uuid"
-                >
-                  <AssignmentVMElement
-                    :vm="
-                      storage.vmsList.find((vm) =>
-                        vm.uuids.find((vm_uuid) => vm_uuid === assigned_vm_uuid)
-                      )
-                    "
-                    :system_recommendation="storage.system_recommendation"
-                    :show_button="true"
-                    @clk_remove="
-                      btn_removeAssignment(host_element_uuid, assigned_vm_uuid)
-                    "
-                  ></AssignmentVMElement>
-                </div>
-              </div>
-            </accordion-content>
+            <accordion-content></accordion-content>
           </accordion-panel>
         </Accordion>
       </div>
@@ -152,18 +70,18 @@
   --></div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import AssignmentVMElement from '../components/assignmentElements/AssignmentVMElement.vue'
 import AssignmentHostElement from '../components/assignmentElements/AssignmentHostElement.vue'
 import { createToast } from 'mosha-vue-toastify'
-import { TOAST_SUCCESS, TOAST_WARNING } from '~/extra/toast-config'
-import { ref, defineComponent, onMounted } from 'vue'
+import { TOAST_WARNING } from '~/extra/toast-config'
+import { computed, defineComponent, onMounted, ref } from 'vue'
 import { useAppStorage } from '~/store/AppStorage'
 import {
   Accordion,
-  AccordionPanel,
-  AccordionHeader,
   AccordionContent,
+  AccordionHeader,
+  AccordionPanel,
 } from 'flowbite-vue'
 import ToggleButton from '../components/button/ToggleButton.vue'
 
@@ -175,6 +93,25 @@ defineComponent({
 const storage = useAppStorage()
 
 const show_as_grid = ref(true)
+
+const unassigned_vm_uuids_list = computed(() => {
+  let vm_uuid_unassigned = []
+  let vm_uuid_list_full = storage.vmsList.flatMap((vm) => vm.uuids)
+  vm_uuid_list_full.forEach((vm_uuid_full) => {
+    if (
+      !storage.assignmentsList.find((assignment) =>
+        assignment.vm_uuid.find((vm_uuid) => vm_uuid === vm_uuid_full)
+      )
+    ) {
+      vm_uuid_unassigned.push(vm_uuid_full as never)
+    }
+  })
+  return vm_uuid_unassigned
+})
+
+const host_uuids_list = computed(() => {
+  return storage.hostsList.flatMap((host) => host.uuids)
+})
 
 onMounted(async () => {
   await storage.init()
