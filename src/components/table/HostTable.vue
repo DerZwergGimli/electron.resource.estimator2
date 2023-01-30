@@ -135,19 +135,14 @@
             </div>
           </td>
           <td>
-            <input
-              class="input-text-field"
-              type="number"
+            <UpDownElement
               :value="host.uuids.length"
-              @input="
-                (event: any) => {
-                  store.check_uuid_length(
-                    host.name,
-                    parseInt(event.target.value)
-                  )
+              @changed="
+                (value) => {
+                  store.check_uuid_length(host.name, value)
                 }
               "
-            />
+            ></UpDownElement>
           </td>
           <td>
             <button
@@ -180,6 +175,7 @@ import IconRam from '../icons/IconRam.vue'
 import IconHdd from '../icons/IconHdd.vue'
 import IconTrash from '../icons/IconTrash.vue'
 import IconCalculator from '../icons/IconCalculator.vue'
+import UpDownElement from './table_elements/UpDownElement.vue'
 const store = useAppStorage()
 store.init()
 
