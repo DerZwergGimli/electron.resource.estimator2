@@ -8,7 +8,7 @@
             class="input-group"
             type="file"
             accept=".json"
-            @change="evt_uploadFile"
+            @change="evt_uploadFile_config"
         /></Button>
       </div>
       <div class="flex flex-col items-center bg-gray-700 m-2 p-2 rounded-md">
@@ -19,7 +19,7 @@
             class="input-group"
             type="file"
             accept=".json"
-            @change="() => createToast('not implemented', TOAST_WARNING)"
+            @change="evt_uploadFile_presets"
         /></Button>
       </div>
     </div>
@@ -38,7 +38,7 @@ import {
 
 const storage = useAppStorage()
 
-function evt_uploadFile(event: any) {
+function evt_uploadFile_config(event: any) {
   console.info('Loading uploaded file...')
 
   const blob = new Blob([event.target.files[0]], { type: 'application/json' })
@@ -48,9 +48,31 @@ function evt_uploadFile(event: any) {
   reader.onloadend = function () {
     const data_string = reader.result?.toString()
     const data_json = JSON.parse(JSON.parse(JSON.stringify(data_string)))
-    storage.import(data_json.hosts, data_json.vms, data_json.assignments)
+    storage.import_config(data_json.hosts, data_json.vms, data_json.assignments)
     createToast('Data imported from File', TOAST_SUCCESS)
     // console.info("...Imported!");
+  }
+
+  reader.onerror = function () {
+    createToast('Error loading file content (check console)', TOAST_ERROR)
+    console.error(reader.error)
+  }
+
+  reader.readAsText(blob)
+}
+
+function evt_uploadFile_presets(event: any) {
+  console.info('Loading uploaded file...')
+
+  const blob = new Blob([event.target.files[0]], { type: 'application/json' })
+
+  let reader = new FileReader()
+
+  reader.onloadend = function () {
+    const data_string = reader.result?.toString()
+    const data_json = JSON.parse(JSON.parse(JSON.stringify(data_string)))
+    storage.import_presets(data_json.presets_vms)
+    createToast('Data imported from File', TOAST_SUCCESS)
   }
 
   reader.onerror = function () {

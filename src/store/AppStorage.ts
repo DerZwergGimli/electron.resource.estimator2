@@ -156,11 +156,15 @@ export const useAppStorage = defineStore({
     //     vm.name === object_name ? vm.uuids.pop() : false
     //   );
     // },
-    import(hosts: Host[], vms: VM[], assignments: Assignment[]) {
+    import_config(hosts: Host[], vms: VM[], assignments: Assignment[]) {
       console.log(hosts)
       this.hostsList = hosts
       this.vmsList = vms
       this.assignmentsList = assignments
+    },
+    import_presets(presets: PresetsVM[]) {
+      console.log(presets)
+      this.presets_vm = presets
     },
     export_config() {
       return {
