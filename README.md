@@ -7,6 +7,9 @@ A simple resource estimator tool written for virtual environment estimation.
 ## Frameworks
 
 - VueJS 3
+- Tailwindcss
+- Flowbite
+- Flowbite-vue
 - [Icons-Collection](https://icones.netlify.app/)
 
 ## DEV

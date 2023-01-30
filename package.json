@@ -1,6 +1,6 @@
 {
   "name": "electron-resource-estimator",
-  "version": "0.1.11",
+  "version": "0.1.12",
   "main": "dist-electron/main/index.js",
   "description": "A simple hardware resource estimator tool for virtual environments ",
   "author": "dzwg",
@@ -11,6 +11,14 @@
     "preBuild": "vue-tsc --noEmit && vite build",
     "build": "vue-tsc --noEmit && vite build && electron-builder",
     "release": "vue-tsc --noEmit && vite build && electron-builder --publish always"
+  },
+  "build": {
+    "appId": "com.resource-capacity.estimator",
+    "productName": "ResourceCapacityEstimator",
+    "copyright": "Copyright © 2023",
+    "win": {
+      "icon": "./public/icons/favicon.png"
+    }
   },
   "engines": {
     "node": "^14.18.0 || >=16.0.0"

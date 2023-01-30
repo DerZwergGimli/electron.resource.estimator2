@@ -156,7 +156,7 @@
 import AssignmentVMElement from '../components/assignmentElements/AssignmentVMElement.vue'
 import AssignmentHostElement from '../components/assignmentElements/AssignmentHostElement.vue'
 import { createToast } from 'mosha-vue-toastify'
-import { TOAST_SUCCESS, TOAST_WARNING } from '../extra/toast-config'
+import { TOAST_SUCCESS, TOAST_WARNING } from '~/extra/toast-config'
 import { ref, defineComponent, onMounted } from 'vue'
 import { useAppStorage } from '~/store/AppStorage'
 import {
@@ -205,12 +205,6 @@ function btn_removeAssignment(host_uuid, vm_uuid) {
 function btn_clearAllAssignments() {
   storage.assignmentsList = []
   createToast('Assignments cleared!', TOAST_WARNING)
-}
-</script>
-
-<script>
-export default {
-  name: 'AssignmentView',
 }
 </script>
 
