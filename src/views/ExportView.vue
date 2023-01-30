@@ -1,3 +1,55 @@
+<script setup>
+import {
+  Accordion,
+  AccordionPanel,
+  AccordionHeader,
+  AccordionContent,
+  Button,
+  Badge,
+} from 'flowbite-vue'
+
+import VueJsonPretty from 'vue-json-pretty'
+import { createToast } from 'mosha-vue-toastify'
+import 'vue-json-pretty/lib/styles.css'
+import { defineComponent } from 'vue'
+import download from 'downloadjs'
+
+import { useAppStorage } from '~/store/AppStorage'
+import { make_zip } from '~/jsZIP/make_zip'
+import { TOAST_INFO } from '~/extra/toast-config'
+const store = useAppStorage()
+
+defineComponent({ VueJsonPretty })
+
+function clk_download_config() {
+  createToast('Download started...', TOAST_INFO)
+  download(
+    JSON.stringify(store.export_config(), null, 3),
+    'resource_capacity_estimator_export.json',
+    'text/json'
+  )
+}
+
+function clk_download_presets() {
+  createToast('Download started...', TOAST_INFO)
+  download(
+    JSON.stringify(store.export_presets(), null, 3),
+    'resource_capacity_estimator_presets.json',
+    'text/json'
+  )
+}
+
+function clk_download_zip() {
+  createToast('Download started...', TOAST_INFO)
+  make_zip(
+    useAppStorage().export_presets(),
+    useAppStorage().export_config()
+  ).then(() => {
+    console.log('Generated .zip')
+  })
+}
+</script>
+
 <template>
   <div class="base-content flex flex-col space-y-3">
     <Accordion>
@@ -19,14 +71,27 @@
             >
               The .ZIP-Archive will contain:
             </h2>
-            <ul
-              class="max-w-md space-y-1 text-gray-500 list-disc list-inside dark:text-gray-400"
+            <div
+              class="grid grid-cols-2 gap-4 text-gray-500 dark:text-gray-400"
             >
-              <li>Your configuration: rce_config.json</li>
-              <li>The preset config: rce_presets.json</li>
-              <li>A simplified Printout: RCE_Simple.pdf</li>
-              <li>A extended Printout: RCE_FULL.pdf</li>
-            </ul>
+              <div>Your configuration:</div>
+              <div class="w-min">
+                <Badge type="yellow">rce_config.json</Badge>
+              </div>
+              <div>The preset-configuration:</div>
+              <div class="w-min">
+                <Badge type="yellow">rce_presets.json</Badge>
+              </div>
+              <div>A simplified Printout as PDF:</div>
+              <div class="w-min">
+                <Badge type="yellow">rce_simple.pdf</Badge>
+              </div>
+
+              <div>An extended Printout as PDF:</div>
+              <div class="w-min">
+                <Badge type="yellow">rce_full.pdf</Badge>
+              </div>
+            </div>
           </div>
         </accordion-content>
       </accordion-panel>
@@ -78,54 +143,3 @@
     </Accordion>
   </div>
 </template>
-
-<script setup>
-import {
-  Accordion,
-  AccordionPanel,
-  AccordionHeader,
-  AccordionContent,
-  Button,
-} from 'flowbite-vue'
-
-import VueJsonPretty from 'vue-json-pretty'
-import { createToast } from 'mosha-vue-toastify'
-import 'vue-json-pretty/lib/styles.css'
-import { defineComponent } from 'vue'
-import download from 'downloadjs'
-
-import { useAppStorage } from '~/store/AppStorage'
-import { make_zip } from '~/jsZIP/make_zip'
-import { TOAST_INFO } from '~/extra/toast-config'
-const store = useAppStorage()
-
-defineComponent({ VueJsonPretty })
-
-function clk_download_config() {
-  createToast('Download started...', TOAST_INFO)
-  download(
-    JSON.stringify(store.export_config(), null, 3),
-    'resource_capacity_estimator_export.json',
-    'text/json'
-  )
-}
-
-function clk_download_presets() {
-  createToast('Download started...', TOAST_INFO)
-  download(
-    JSON.stringify(store.export_presets(), null, 3),
-    'resource_capacity_estimator_presets.json',
-    'text/json'
-  )
-}
-
-function clk_download_zip() {
-  createToast('Download started...', TOAST_INFO)
-  make_zip(
-    useAppStorage().export_presets(),
-    useAppStorage().export_config()
-  ).then(() => {
-    console.log('Generated .zip')
-  })
-}
-</script>
