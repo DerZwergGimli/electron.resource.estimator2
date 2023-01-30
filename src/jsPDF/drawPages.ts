@@ -133,7 +133,7 @@ export function draw_VMListPage(doc: jsPDF) {
   })
 }
 
-export function draw_AssignmentPage(doc: jsPDF) {
+export function draw_AssignmentPage(doc: jsPDF, show_vm_list: Boolean) {
   draw_outline(doc)
   doc.text('Assignments-List', doc.internal.pageSize.getWidth() / 2, 20, {
     align: 'center',
@@ -411,46 +411,48 @@ export function draw_AssignmentPage(doc: jsPDF) {
     )
     offsetY += 20
 
-    doc.setFontSize(10)
-    doc.text('Assigned VMs:', 15, offsetY)
-    doc.setFontSize(15)
+    if (show_vm_list) {
+      doc.setFontSize(10)
+      doc.text('Assigned VMs:', 15, offsetY)
+      doc.setFontSize(15)
 
-    offsetY += 5
+      offsetY += 5
 
-    autoTable(doc, {
-      head: [
-        [
-          {
-            content: 'VM-Name',
-            colSpan: 1,
-            styles: { halign: 'left' },
-          },
-          {
-            content: 'vCPU',
-            colSpan: 1,
-            styles: { halign: 'right' },
-          },
-          {
-            content: 'vRAM',
-            colSpan: 1,
-            styles: { halign: 'right' },
-          },
-          {
-            content: 'vStorage',
-            colSpan: 1,
-            styles: { halign: 'right' },
-          },
+      autoTable(doc, {
+        head: [
+          [
+            {
+              content: 'VM-Name',
+              colSpan: 1,
+              styles: { halign: 'left' },
+            },
+            {
+              content: 'vCPU',
+              colSpan: 1,
+              styles: { halign: 'right' },
+            },
+            {
+              content: 'vRAM',
+              colSpan: 1,
+              styles: { halign: 'right' },
+            },
+            {
+              content: 'vStorage',
+              colSpan: 1,
+              styles: { halign: 'right' },
+            },
+          ],
         ],
-      ],
-      startY: offsetY,
-      body: body_vms,
-      didParseCell: function (data) {
-        var rows = data.table.body
-        if (data.row.index === rows.length - 1) {
-          data.cell.styles.fillColor = '#8FE6FC'
-        }
-      },
-    })
+        startY: offsetY,
+        body: body_vms,
+        didParseCell: function (data) {
+          let rows = data.table.body
+          if (data.row.index === rows.length - 1) {
+            data.cell.styles.fillColor = '#8FE6FC'
+          }
+        },
+      })
+    }
 
     if (useAppStorage().assignmentsList.length - 1 > i) {
       doc.addPage()
