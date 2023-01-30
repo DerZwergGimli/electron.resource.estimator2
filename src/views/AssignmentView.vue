@@ -41,12 +41,15 @@
       <div
         class="flex basis-1/2 flex-auto card place-items-center h-screen overflow-x-auto"
       >
-        {{ host_uuids_list }}
         <h3 class="w-full">Hosts (with assigned VMs)</h3>
-        <Accordion flush always-open class="w-full pr-3">
+        <Accordion always-open class="w-full pr-3">
           <accordion-panel
             v-for="host_uuid in host_uuids_list"
             :key="host_uuid"
+            @drop="on_drop($event, host_uuid)"
+            @dragover.prevent
+            @dragenter.prevent
+            class="drop-zone"
           >
             <accordion-header>
               <AssignmentHostElement
@@ -57,10 +60,49 @@
                   )
                 "
                 :system_recommendation="storage.system_recommendation"
-                :host_index="host_uuid"
+                :host_index="
+                  storage.hostsList
+                    .find((host) =>
+                      host.uuids.some((uuid) => uuid === host_uuid)
+                    )
+                    .uuids.indexOf(host_uuid)
+                "
               ></AssignmentHostElement>
             </accordion-header>
-            <accordion-content></accordion-content>
+            <accordion-content>
+              <div
+                class="space-y-1"
+                v-if="
+                  storage.assignmentsList.find(
+                    (assignment) => assignment.host_uuid === host_uuid
+                  )
+                "
+              >
+                <div
+                  class="flex flex-row"
+                  v-for="assigned_vm_uuid in storage.assignmentsList.find(
+                    (assignment) => assignment.host_uuid === host_uuid
+                  ).vm_uuid"
+                  :key="assigned_vm_uuid"
+                >
+                  <AssignmentVMElement
+                    :vm="
+                      storage.vmsList.find((vm) =>
+                        vm.uuids.find((vm_uuid) => vm_uuid === assigned_vm_uuid)
+                      )
+                    "
+                    :system_recommendation="storage.system_recommendation"
+                    :show_button="true"
+                    @clk_remove="
+                      btn_removeAssignment(host_uuid, assigned_vm_uuid)
+                    "
+                  ></AssignmentVMElement>
+                </div>
+              </div>
+              <div v-else>
+                <Badge type="indigo">-- no VM assigned --</Badge>
+              </div>
+            </accordion-content>
           </accordion-panel>
         </Accordion>
       </div>
@@ -84,6 +126,7 @@ import {
   AccordionPanel,
 } from 'flowbite-vue'
 import ToggleButton from '../components/button/ToggleButton.vue'
+import { Badge } from 'flowbite-vue'
 
 defineComponent({
   AssignmentVMElement,

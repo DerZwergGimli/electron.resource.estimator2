@@ -28,7 +28,7 @@ h2{
 }
 
 h3{
-  @apply text-lg underline underline-offset-1 border-b mb-3
+  @apply text-3xl font-extrabold dark:text-white p-2
 }
 
 tr {
