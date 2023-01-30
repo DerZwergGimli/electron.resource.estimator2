@@ -7,11 +7,14 @@
       <toggle-button text="Grid/Row" @toggle="toggle_grid_row()" />
     </div>
 
-    <div class="flex flex-col w-auto mx-4 lg:flex-row">
+    <div class="flex flex-col w-auto mx-4 lg:flex-row py-2">
       <div
-        class="flex basis-1/2flex-grow space-y-2 card rounded-box place-items-center"
+        class="flex basis-1/2 flex-col p-2 rounded-box place-items-center dark:bg-gray-900 place-items-center h-screen overflow-x-auto"
       >
         <h3 class="w-full">Unassigned VMs</h3>
+        <div v-if="unassigned_vm_uuids_list.length === 0">
+          <Badge type="indigo">-- no VM unassigned --</Badge>
+        </div>
         <div
           class="grid w-full gap-4"
           :class="show_as_grid ? 'grid-cols-2' : 'grid-cols-1'"
@@ -39,7 +42,7 @@
       </div>
       <div class="divider lg:divider-horizontal"></div>
       <div
-        class="flex basis-1/2 flex-auto card place-items-center h-screen overflow-x-auto"
+        class="flex basis-1/2 flex-col p-2 rounded-box place-items-center dark:bg-gray-900 place-items-center h-screen overflow-x-auto"
       >
         <h3 class="w-full">Hosts (with assigned VMs)</h3>
         <Accordion always-open class="w-full pr-3">
@@ -75,7 +78,7 @@
                 v-if="
                   storage.assignmentsList.find(
                     (assignment) => assignment.host_uuid === host_uuid
-                  )
+                  )?.vm_uuid?.length > 0
                 "
               >
                 <div
