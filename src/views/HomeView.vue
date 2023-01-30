@@ -15,7 +15,10 @@
         <li class="step step-primary">
           Assign your VMs to the host in the 'Assignment' section
         </li>
-        <li class="step step-primary">Create a PDF in the 'Print' section</li>
+        <li class="step step-primary">Check the PDF in the 'PDF' section</li>
+        <li class="step step-primary">
+          Save all your files in the 'Export' as .zip
+        </li>
       </ul>
       <img class="object-contain w-96" src="/public/logo.png" alt="app-logo" />
     </div>

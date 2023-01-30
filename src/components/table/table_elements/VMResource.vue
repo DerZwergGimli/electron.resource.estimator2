@@ -1,23 +1,23 @@
 <template>
   <div class="space-y-1">
-    <label class="input-g flex justify-center">
-      <span class="w-14 flex justify-center">
+    <div class="input-g flex">
+      <div class="flex w-6 justify-center">
         <icon-cpu v-if="type === 'cpu'" />
         <icon-ram v-if="type === 'ram'" />
         <icon-hdd v-if="type === 'storage'" />
         <icon-calculator v-if="type === 'amount'" />
-      </span>
+      </div>
       <input
-        class="input-text-field"
+        class="flex basis-1/2 input-text-field"
         type="number"
         :class="value === 0 ? ' input-error' : ''"
         :value="value"
         @input="(event: any) => $emit('changed', event.target.value)"
       />
-      <span class="w-32 flex justify-center">
+      <div class="flex justify-center w-12">
         {{ type === 'cpu' ? 'Cores' : type === 'amount' ? '#' : 'GB' }}
-      </span>
-    </label>
+      </div>
+    </div>
   </div>
 </template>
 
