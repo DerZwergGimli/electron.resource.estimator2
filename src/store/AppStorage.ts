@@ -162,11 +162,16 @@ export const useAppStorage = defineStore({
       this.vmsList = vms
       this.assignmentsList = assignments
     },
-    export() {
+    export_config() {
       return {
         hosts: this.hostsList,
         vms: this.vmsList,
         assignments: this.assignmentsList,
+      }
+    },
+    export_presets() {
+      return {
+        presets_vms: this.presets_vm,
       }
     },
   },

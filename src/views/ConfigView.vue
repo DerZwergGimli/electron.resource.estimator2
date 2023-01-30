@@ -8,7 +8,10 @@
       </div>
     </button>
     <div class="mx-4 p-2">
-      <vue-json-pretty :path="'res'" :data="store.export()"></vue-json-pretty>
+      <vue-json-pretty
+        :path="'res'"
+        :data="store.export_config()"
+      ></vue-json-pretty>
     </div>
   </div>
 </template>
@@ -28,7 +31,7 @@ defineComponent({ VueJsonPretty })
 function clk_download() {
   createToast('Download started...', { type: 'info' })
   download(
-    JSON.stringify(store.export(), null, 3),
+    JSON.stringify(store.export_config(), null, 3),
     'resource_capacity_estimator_export.json',
     'text/plain'
   )

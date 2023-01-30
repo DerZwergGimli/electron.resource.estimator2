@@ -14,11 +14,11 @@ import SwitchTheme from '~/components/button/SwitchTheme.vue'
       <NavbarCollapse :isShowMenu="isShowMenu">
         <router-link to="/">Home</router-link>
         <router-link to="/import">Import</router-link>
-        <router-link to="/export">Export</router-link>
         <router-link to="/host">Host</router-link>
         <router-link to="/vm">VM</router-link>
         <router-link to="/assignment">Assignment</router-link>
         <router-link to="/printout">PDF</router-link>
+        <router-link to="/export">Export</router-link>
         <router-link to="/about">About</router-link>
       </NavbarCollapse>
       <div class="w-4">

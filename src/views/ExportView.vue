@@ -4,9 +4,40 @@
       <accordion-panel>
         <accordion-header
           ><div class="flex flex-row items-center">
-            <p>Config</p>
+            <p>Combined ZIP</p>
             <div class="flex w-full justify-end pr-5">
-              <Button color="default" @click="clk_download()">Download</Button>
+              <Button color="default" @click="clk_download_zip()"
+                >Download</Button
+              >
+            </div>
+          </div>
+        </accordion-header>
+        <accordion-content>
+          <div>
+            <h2
+              class="mb-2 text-lg font-semibold text-gray-900 dark:text-white"
+            >
+              The .ZIP-Archive will contain:
+            </h2>
+            <ul
+              class="max-w-md space-y-1 text-gray-500 list-disc list-inside dark:text-gray-400"
+            >
+              <li>Your configuration: rce_config.json</li>
+              <li>The preset config: rce_presets.json</li>
+              <li>A simplified Printout: RCE_Simple.pdf</li>
+              <li>A extended Printout: RCE_FULL.pdf</li>
+            </ul>
+          </div>
+        </accordion-content>
+      </accordion-panel>
+      <accordion-panel>
+        <accordion-header
+          ><div class="flex flex-row items-center">
+            <p>Standalone Config (JSON)</p>
+            <div class="flex w-full justify-end pr-5">
+              <Button color="default" @click="clk_download_config()"
+                >Download</Button
+              >
             </div>
           </div>
         </accordion-header>
@@ -15,17 +46,33 @@
             <div class="mx-4 p-2">
               <vue-json-pretty
                 :path="'res'"
-                :data="store.export()"
+                :data="store.export_config()"
               ></vue-json-pretty>
             </div>
           </div>
         </accordion-content>
       </accordion-panel>
-      <accordion-panel> </accordion-panel>
+
       <accordion-panel>
-        <accordion-header>Presets</accordion-header>
+        <accordion-header
+          ><div class="flex flex-row items-center">
+            <p>Standalone Presets (JSON)</p>
+            <div class="flex w-full justify-end pr-5">
+              <Button color="default" @click="clk_download_presets()"
+                >Download</Button
+              >
+            </div>
+          </div></accordion-header
+        >
         <accordion-content>
-          <div>NOT-IMPLEMNTED</div>
+          <div>
+            <div class="mx-4 p-2">
+              <vue-json-pretty
+                :path="'res'"
+                :data="store.export_presets()"
+              ></vue-json-pretty>
+            </div>
+          </div>
         </accordion-content>
       </accordion-panel>
     </Accordion>
@@ -47,17 +94,38 @@ import 'vue-json-pretty/lib/styles.css'
 import { defineComponent } from 'vue'
 import download from 'downloadjs'
 
-import { useAppStorage } from '../store/AppStorage'
+import { useAppStorage } from '~/store/AppStorage'
+import { make_zip } from '~/jsZIP/make_zip'
+import { TOAST_INFO } from '~/extra/toast-config'
 const store = useAppStorage()
 
 defineComponent({ VueJsonPretty })
 
-function clk_download() {
-  createToast('Download started...', { type: 'info' })
+function clk_download_config() {
+  createToast('Download started...', TOAST_INFO)
   download(
-    JSON.stringify(store.export(), null, 3),
+    JSON.stringify(store.export_config(), null, 3),
     'resource_capacity_estimator_export.json',
-    'text/plain'
+    'text/json'
   )
+}
+
+function clk_download_presets() {
+  createToast('Download started...', TOAST_INFO)
+  download(
+    JSON.stringify(store.export_presets(), null, 3),
+    'resource_capacity_estimator_presets.json',
+    'text/json'
+  )
+}
+
+function clk_download_zip() {
+  createToast('Download started...', TOAST_INFO)
+  make_zip(
+    useAppStorage().export_presets(),
+    useAppStorage().export_config()
+  ).then(() => {
+    console.log('Generated .zip')
+  })
 }
 </script>

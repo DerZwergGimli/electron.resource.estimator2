@@ -14,6 +14,7 @@ import {
 
 import { draw_CodePage } from '../jsPDF/exportCode'
 import { addPageNumbers } from '../jsPDF/helperJSPDF'
+import { generatePDF_FULL } from '../jsPDF/generator'
 
 const store = useAppStorage()
 const doc = new jsPDF('p', 'mm', 'a4')
@@ -25,45 +26,9 @@ const images_bars = [] as HTMLCanvasElement[]
 const charts_to_image = ref(null)
 
 onMounted(async () => {
-  await generatePDF()
+  await generatePDF_FULL(doc)
   pdfFile.value = doc.output('datauristring')
 })
-
-const host_table_elements = store.hostsList.map((host, index) => [
-  index,
-  host.name,
-  host.cpu.sockets * host.cpu.cores + ' GB',
-  host.ram.slots * host.ram.size + ' GB',
-  host.storage.amount * host.storage.size + ' GB',
-  host.uuids.length,
-])
-
-const vm_table_elements = store.vmsList.map((vm, index) => [
-  index,
-  vm.name,
-  vm.vcpu.rec + ' GB',
-  vm.vram.rec + ' GB',
-  vm.vstorage.rec + ' GB',
-  vm.uuids.length,
-])
-
-async function generatePDF() {
-  draw_CoverSheet(doc)
-  doc.addPage()
-
-  draw_HostListPage(doc)
-  doc.addPage()
-
-  draw_VMListPage(doc)
-  doc.addPage()
-
-  draw_AssignmentPage(doc)
-  doc.addPage()
-
-  draw_CodePage(doc)
-
-  addPageNumbers(doc)
-}
 
 function downloadPDF() {
   doc.save()

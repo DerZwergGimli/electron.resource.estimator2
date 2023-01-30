@@ -134,6 +134,7 @@ export function draw_VMListPage(doc: jsPDF) {
 }
 
 export function draw_AssignmentPage(doc: jsPDF) {
+  draw_outline(doc)
   doc.text('Assignments-List', doc.internal.pageSize.getWidth() / 2, 20, {
     align: 'center',
   })
@@ -141,6 +142,7 @@ export function draw_AssignmentPage(doc: jsPDF) {
   doc.addPage()
 
   for (let i = 0; i < useAppStorage().assignmentsList.length; i++) {
+    draw_outline(doc)
     var offsetY = 20
 
     let current_host = useAppStorage().hostsList.find((host) =>
