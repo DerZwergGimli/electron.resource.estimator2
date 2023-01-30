@@ -88,15 +88,14 @@
             ></VMResouce>
           </th>
           <th>
-            <VMResouce
+            <UpDownElement
               :value="vm.uuids.length"
               @changed="
                 (value) => {
                   store.check_uuid_length(vm.name, parseInt(value))
                 }
               "
-              type="amount"
-            ></VMResouce>
+            ></UpDownElement>
           </th>
           <th>
             <button
@@ -124,6 +123,7 @@ import IconRam from '../icons/IconRam.vue'
 import IconHdd from '../icons/IconHdd.vue'
 import IconTrash from '../icons/IconTrash.vue'
 import IconCalculator from '../icons/IconCalculator.vue'
+import UpDownElement from './table_elements/UpDownElement.vue'
 
 const store = useAppStorage()
 store.init()
@@ -158,5 +158,3 @@ function evt_change_preset(event: any, vm_uuids: string[]) {
   createToast('Preset updated!', TOAST_SUCCESS)
 }
 </script>
-
-<script setup lang="ts"></script>

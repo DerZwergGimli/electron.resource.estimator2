@@ -10,7 +10,7 @@
       <input
         class="input-text-field"
         type="number"
-        :class="value == 0 ? ' input-error' : ''"
+        :class="value === 0 ? ' input-error' : ''"
         :value="value"
         @input="(event: any) => $emit('changed', event.target.value)"
       />
